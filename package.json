@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --detectOpenHandles --watchAll --verbose --forceExit --coverage --runInBand",
+    "test": "NODE_ENV=test jest --detectOpenHandles --watchAll --verbose --forceExit --coverage --runInBand",
     "dev": "nodemon src/index.js",
     "start": "node src/index.js"
   },
@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/Dovakiin0/rent-garam#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
