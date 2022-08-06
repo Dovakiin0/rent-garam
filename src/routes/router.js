@@ -7,4 +7,5 @@ module.exports = (app) => {
   app.use(express.urlencoded({ extended: false }));
 
   app.use("/api/v1/auth", require("./auth.routes"));
+  app.use("/api/v1/estate", require("./estate.routes"));
 };

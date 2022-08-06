@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=test jest --detectOpenHandles --watchAll --verbose --forceExit --coverage --runInBand",
+    "test": "NODE_ENV=test jest --detectOpenHandles --watchAll --verbose --forceExit",
     "dev": "nodemon src/index.js",
     "start": "node src/index.js"
   },
