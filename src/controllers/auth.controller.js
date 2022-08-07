@@ -1,6 +1,7 @@
 const db = require("../db");
 const { generateToken, hashPassword } = require("../utils/utility");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const registerUser = async (req, res) => {
   const { email, full_name, phone_no, password } = req.body;
@@ -28,6 +29,23 @@ const registerUser = async (req, res) => {
     message: "User created successfully",
     token,
   });
+};
+
+const getMe = async (req, res) => {
+  token = req.headers.authorization.split(" ")[1];
+  const decoded = await jwt.verify(token, process.env.JWT_SECRET);
+  const { rows } = await db.query("SELECT * FROM users WHERE id = $1", [
+    decoded.id,
+  ]);
+  if (rows.length > 0) {
+    return res.status(200).json({
+      user: rows[0],
+    });
+  } else {
+    return res.status(404).json({
+      message: "User not found",
+    });
+  }
 };
 
 const loginUser = async (req, res) => {
@@ -58,4 +76,5 @@ const loginUser = async (req, res) => {
 module.exports = {
   registerUser,
   loginUser,
+  getMe,
 };

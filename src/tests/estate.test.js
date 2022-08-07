@@ -16,18 +16,24 @@ describe("Real Estate", () => {
       name: "Estate 1",
       image_url: "image.com",
       description: "THIS is good house",
+      address: "New Baneshwor",
       price: 100000,
       owner_id: rows[0].id,
       latitude: 79.99,
+      bedroom: 5,
+      washroom: 2,
       longitude: 79.99,
     };
 
     const { rows: estateRow } = await db.query(
-      "INSERT INTO estate (name, image_url, description, latitude, longitude, price, owner_id) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id",
+      "INSERT INTO estate (name, image_url, description, address,bedroom,washroom, latitude, longitude, price, owner_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id",
       [
         estate.name,
         estate.image_url,
         estate.description,
+        estate.address,
+        estate.bedroom,
+        estate.washroom,
         estate.latitude,
         estate.longitude,
         estate.price,
@@ -60,8 +66,11 @@ describe("Real Estate", () => {
     const estate = {
       name: "Estate 2",
       description: "THIS is good house",
+      address: "New Baneshwor",
       latitude: 79.99,
       longitude: 79.99,
+      bedroom: 5,
+      washroom: 2,
       price: 100000,
       owner_id: user_id,
     };
@@ -73,6 +82,8 @@ describe("Real Estate", () => {
       .field("price", estate.price)
       .field("owner_id", estate.owner_id)
       .field("description", estate.description)
+      .field("bedroom", estate.bedroom)
+      .field("washroom", estate.washroom)
       .field("latitude", estate.latitude)
       .field("longitude", estate.longitude);
     expect(res.status).toBe(201);
@@ -82,14 +93,25 @@ describe("Real Estate", () => {
   it("Should edit estate", async () => {
     const estate = {
       name: "Estate updated",
-      image_url: "url.com",
+      description: "THIS is good house",
       price: 100000,
-      owner_id: user_id,
+      latitude: 79.99,
+      longitude: 79.99,
+      bedroom: 5,
+      washroom: 2,
     };
+    const image = path.resolve(__dirname, "2.jpg");
 
     const res = await supertest(server)
       .put("/api/v1/estate/" + id)
-      .send(estate);
+      .attach("image", image)
+      .field("name", estate.name)
+      .field("price", estate.price)
+      .field("description", estate.description)
+      .field("bedroom", estate.bedroom)
+      .field("washroom", estate.washroom)
+      .field("latitude", estate.latitude)
+      .field("longitude", estate.longitude);
     expect(res.status).toBe(200);
     expect(res.body).toHaveProperty("name");
   });

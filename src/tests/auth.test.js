@@ -18,12 +18,14 @@ describe("Unit", () => {
 });
 
 describe("Authentication", () => {
+  let token;
   beforeEach(async () => {
     const hashed = await hashPassword("password");
     const { rows } = await db.query(
-      "INSERT INTO users (fullname, email, password, phone_no) VALUES ($1, $2, $3, $4)",
+      "INSERT INTO users (fullname, email, password, phone_no) VALUES ($1, $2, $3, $4) RETURNING id",
       ["hello world", "hello@world.com", hashed, "92838"]
     );
+    token = generateToken(rows[0].id);
   });
 
   afterEach(async () => {
@@ -50,5 +52,13 @@ describe("Authentication", () => {
     const res = await supertest(server).post("/api/v1/auth/login").send(cred);
     expect(res.status).toBe(200);
     expect(res.body).toHaveProperty("token");
+  });
+
+  it("Should return current logged user", async () => {
+    const res = await supertest(server)
+      .get("/api/v1/auth/me")
+      .set("Authorization", `Bearer ${token}`);
+    expect(res.status).toBe(200);
+    expect(res.body).toHaveProperty("user");
   });
 });
