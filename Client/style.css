@@ -189,6 +189,7 @@ header {
   grid-template-columns: repeat(auto-fit, minmax(240px, auto));
   gap: 3rem;
   padding: 0 50px;
+  position: relative;
 }
 .properties-container .box {
   background: var(--bg-color);
@@ -496,4 +497,39 @@ header {
 
   .item-image{
     padding: 20 px;
+  }
+
+  .properties-container .about-text {
+  
+    position: relative;
+    left:50%;
+    bottom: 90%; 
+    vertical-align: center;
+  
+    left: 30  vw;
+  }
+
+
+  .descriptions{
+    height: 200px;
+    
+  }
+
+  .insert-image{
+    height: 200px;
+    width: 200px;
+    padding: 300px;
+    margin: 200px;
+    border-style: dashed;
+    
+  }
+
+  .upload {
+    display: grid;
+    grid-template-columns: 0.4fr 1fr;
+    align-items: center;
+    min-height: 100vh;
+    margin-top: 2rem;
+    min-width: 300vh;
+    padding-left: 20vh;
   }

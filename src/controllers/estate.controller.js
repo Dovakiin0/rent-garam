@@ -1,10 +1,21 @@
 const db = require("../db");
+const path = require("path");
+
+const UPLOAD_DIR = path.join(__dirname, "../../storage/");
 
 const addNew = async (req, res) => {
-  const { name, image_url, price, owner_id } = req.body;
+  const image = req.files.image;
+  const dir = UPLOAD_DIR + image.name;
+  image.mv(dir, (err) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).send(err);
+    }
+  });
+  const { name, price, owner_id, description, latitude, longitude } = req.body;
   const { rows } = await db.query(
-    "INSERT INTO estate (name, image_url, price, owner_id) VALUES ($1, $2, $3, $4) RETURNING *",
-    [name, image_url, price, owner_id]
+    "INSERT INTO estate (name, image_url, description, latitude, longitude, price, owner_id) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *",
+    [name, image.name, description, latitude, longitude, price, owner_id]
   );
   if (rows.length > 0) {
     return res.status(201).json(rows[0]);
@@ -37,10 +48,10 @@ const getOne = async (req, res) => {
 
 const edit = async (req, res) => {
   const { id } = req.params;
-  const { name, image_url, price, owner_id } = req.body;
+  const { name, image_url, price, description, latitude, longitude } = req.body;
   const { rows } = await db.query(
-    "UPDATE estate SET name = $1, image_url = $2, price = $3, owner_id = $4 WHERE id = $5 RETURNING *",
-    [name, image_url, price, owner_id, id]
+    "UPDATE estate SET name = $1, image_url = $2, price = $3, description = $4, latitude = $5, longitude = $6 WHERE id = $7 RETURNING *",
+    [name, image_url, price, description, latitude, longitude, id]
   );
   if (rows.length > 0) {
     return res.status(200).json(rows[0]);

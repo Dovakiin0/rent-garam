@@ -16,7 +16,7 @@ pool.query(
   "CREATE TABLE IF NOT EXISTS users (id SERIAL PRIMARY KEY, fullname VARCHAR(255), email VARCHAR(255), phone_no VARCHAR(255), password VARCHAR(255))"
 );
 pool.query(
-  "CREATE TABLE IF NOT EXISTS estate (id SERIAL PRIMARY KEY, name VARCHAR(255), image_url VARCHAR(255), price INTEGER, owner_id INTEGER, FOREIGN KEY (owner_id) REFERENCES users(id))"
+  "CREATE TABLE IF NOT EXISTS estate (id SERIAL PRIMARY KEY, name VARCHAR(255), image_url VARCHAR(255), description VARCHAR(1000), price FLOAT, owner_id INTEGER, latitude FLOAT, longitude FLOAT, FOREIGN KEY (owner_id) REFERENCES users(id))"
 );
 
 module.exports = {

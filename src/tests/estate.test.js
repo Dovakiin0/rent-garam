@@ -1,6 +1,7 @@
 const supertest = require("supertest");
 const db = require("../db");
 const server = require("../config");
+const path = require("path");
 
 describe("Real Estate", () => {
   let user_id;
@@ -13,14 +14,25 @@ describe("Real Estate", () => {
     user_id = rows[0].id;
     const estate = {
       name: "Estate 1",
-      image_url: "https://www.google.com/",
+      image_url: "image.com",
+      description: "THIS is good house",
       price: 100000,
       owner_id: rows[0].id,
+      latitude: 79.99,
+      longitude: 79.99,
     };
 
     const { rows: estateRow } = await db.query(
-      "INSERT INTO estate (name, image_url, price, owner_id) VALUES ($1, $2, $3, $4) RETURNING id",
-      [estate.name, estate.image_url, estate.price, estate.owner_id]
+      "INSERT INTO estate (name, image_url, description, latitude, longitude, price, owner_id) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id",
+      [
+        estate.name,
+        estate.image_url,
+        estate.description,
+        estate.latitude,
+        estate.longitude,
+        estate.price,
+        estate.owner_id,
+      ]
     );
 
     id = estateRow[0].id;
@@ -44,21 +56,33 @@ describe("Real Estate", () => {
   });
 
   it("Should add new estate", async () => {
+    const image = path.resolve(__dirname, "2.jpg");
     const estate = {
       name: "Estate 2",
-      image_url: "https://www.google.com/",
+      description: "THIS is good house",
+      latitude: 79.99,
+      longitude: 79.99,
       price: 100000,
       owner_id: user_id,
     };
 
-    const res = await supertest(server).post("/api/v1/estate/add").send(estate);
+    const res = await supertest(server)
+      .post("/api/v1/estate/add")
+      .attach("image", image)
+      .field("name", estate.name)
+      .field("price", estate.price)
+      .field("owner_id", estate.owner_id)
+      .field("description", estate.description)
+      .field("latitude", estate.latitude)
+      .field("longitude", estate.longitude);
     expect(res.status).toBe(201);
     expect(res.body).toHaveProperty("name");
   });
+
   it("Should edit estate", async () => {
     const estate = {
       name: "Estate updated",
-      image_url: "https://www.google.com/",
+      image_url: "url.com",
       price: 100000,
       owner_id: user_id,
     };
