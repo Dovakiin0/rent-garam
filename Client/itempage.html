@@ -42,22 +42,24 @@
         <script type="module">
           const urlParams = new URLSearchParams(location.search);
           let details = null;
-          const { data, status } = await axios.get(
-            "http://localhost:3000/api/v1/estate/" + urlParams.get("id")
-          );
-          if (status === 200) {
-            details = data;
-            document.querySelector(".estate-name").innerHTML = details.name;
-            document.querySelector(".estate-description").innerHTML =
-              details.description;
-            document.querySelector(
-              ".estate-img"
-            ).src = `http://localhost:3000/files/${details.image_url}`;
-            initMap({
-              lat: details.latitude,
-              lng: details.longitude,
-            });
-          } else {
+          try {
+            const { data, status } = await axios.get(
+              "http://localhost:3000/api/v1/estate/" + urlParams.get("id")
+            );
+            if (status === 200) {
+              details = data;
+              document.querySelector(".estate-name").innerHTML = details.name;
+              document.querySelector(".estate-description").innerHTML =
+                details.description;
+              document.querySelector(
+                ".estate-img"
+              ).src = `http://localhost:3000/files/${details.image_url}`;
+              initMap({
+                lat: details.latitude,
+                lng: details.longitude,
+              });
+            }
+          } catch (err) {
             window.location.href = "index.html";
           }
 
@@ -126,4 +128,5 @@
     crossorigin="anonymous"
     referrerpolicy="no-referrer"
   ></script>
+  <script type="module" src="js/header.js"></script>
 </html>
