@@ -1,5 +1,6 @@
-import { Select, TextInput, Button } from "@mantine/core";
+import { Select, TextInput, Button, Textarea } from "@mantine/core";
 import React, { useState } from "react";
+import Property from "../components/Property";
 
 function Home() {
   const [mode, setMode] = useState(0);
@@ -142,8 +143,8 @@ function Home() {
           Our <span className="text-primary bg-light p-3">Services</span>
         </h1>
 
-        <div className="flex m-28 space-x-10">
-          <div className="border-gray-200 border-2 shadow-lg bg-white p-10 capitalize flex flex-col items-center justify-center space-y-5">
+        <div className="lg:flex m-11 lg:space-x-5 space-y-5 lg:space-y-0">
+          <div className="border-gray-200 border-2 shadow-lg bg-white p-5 capitalize flex flex-col items-center justify-center space-y-5">
             <img src="images/s-1.png" alt="" />
             <h3 className="text-2xl">buying home</h3>
             <p className="text-gray-500">
@@ -184,357 +185,102 @@ function Home() {
         </div>
       </section>
 
-      <section className="featured" id="featured">
-        <h1 className="heading">
-          <span>featured</span> properties
+      <section
+        className="mt-11 flex flex-col justify-between items-center"
+        id="featured"
+      >
+        <h1 className="text-4xl">
+          <span className="text-primary bg-light p-3">Featured</span> Properties
         </h1>
 
-        <div className="box-container">
-          <div className="box">
-            <div className="image-container">
-              <img src="images/img-1.jpg" alt="" />
-              <div className="info">
-                <h3>3 days ago</h3>
-                <h3>for rent</h3>
-              </div>
-              <div className="icons">
-                <a href="#" className="fas fa-film">
-                  <h3>1</h3>
-                </a>
-                <a href="#" className="fas fa-camera">
-                  <h3>4</h3>
-                </a>
-              </div>
-            </div>
-            <div className="content">
-              <div className="price">
-                <h3>$25,000/mo</h3>
-                <a href="#" className="fas fa-heart"></a>
-                <a href="#" className="fas fa-envelope"></a>
-                <a href="#" className="fas fa-phone"></a>
-              </div>
-              <div className="location">
-                <h3>modern apartments</h3>
-                <p>jogeshwari west, mumbai, india - 400104</p>
-              </div>
-              <div className="details">
-                <h3>
-                  <i className="fas fa-expand"></i> 3500 sqft
-                </h3>
-                <h3>
-                  <i className="fas fa-bed"></i> 3 beds
-                </h3>
-                <h3>
-                  <i className="fas fa-bath"></i> 2 baths
-                </h3>
-              </div>
-              <div className="buttons">
-                <a href="#" className="btn">
-                  request info
-                </a>
-                <a href="#" className="btn">
-                  view details
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div className="box">
-            <div className="image-container">
-              <img src="images/img-2.jpg" alt="" />
-              <div className="info">
-                <h3>6 days ago</h3>
-                <h3>for sell</h3>
-              </div>
-              <div className="icons">
-                <a href="#" className="fas fa-film">
-                  <h3>2</h3>
-                </a>
-                <a href="#" className="fas fa-camera">
-                  <h3>7</h3>
-                </a>
-              </div>
-            </div>
-            <div className="content">
-              <div className="price">
-                <h3>$25,000/mo</h3>
-                <a href="#" className="fas fa-heart"></a>
-                <a href="#" className="fas fa-envelope"></a>
-                <a href="#" className="fas fa-phone"></a>
-              </div>
-              <div className="location">
-                <h3>modern apartments</h3>
-                <p>jogeshwari west, mumbai, india - 400104</p>
-              </div>
-              <div className="details">
-                <h3>
-                  <i className="fas fa-expand"></i> 3500 sqft
-                </h3>
-                <h3>
-                  <i className="fas fa-bed"></i> 3 beds
-                </h3>
-                <h3>
-                  <i className="fas fa-bath"></i> 2 baths
-                </h3>
-              </div>
-              <div className="buttons">
-                <a href="#" className="btn">
-                  request info
-                </a>
-                <a href="#" className="btn">
-                  view details
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div className="box">
-            <div className="image-container">
-              <img src="images/img-3.jpg" alt="" />
-              <div className="info">
-                <h3>1 days ago</h3>
-                <h3>for rent</h3>
-              </div>
-              <div className="icons">
-                <a href="#" className="fas fa-film">
-                  <h3>1</h3>
-                </a>
-                <a href="#" className="fas fa-camera">
-                  <h3>6</h3>
-                </a>
-              </div>
-            </div>
-            <div className="content">
-              <div className="price">
-                <h3>$25,000/mo</h3>
-                <a href="#" className="fas fa-heart"></a>
-                <a href="#" className="fas fa-envelope"></a>
-                <a href="#" className="fas fa-phone"></a>
-              </div>
-              <div className="location">
-                <h3>modern apartments</h3>
-                <p>jogeshwari west, mumbai, india - 400104</p>
-              </div>
-              <div className="details">
-                <h3>
-                  <i className="fas fa-expand"></i> 3500 sqft
-                </h3>
-                <h3>
-                  <i className="fas fa-bed"></i> 3 beds
-                </h3>
-                <h3>
-                  <i className="fas fa-bath"></i> 2 baths
-                </h3>
-              </div>
-              <div className="buttons">
-                <a href="#" className="btn">
-                  request info
-                </a>
-                <a href="#" className="btn">
-                  view details
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div className="box">
-            <div className="image-container">
-              <img src="images/img-4.jpg" alt="" />
-              <div className="info">
-                <h3>9 days ago</h3>
-                <h3>for rent</h3>
-              </div>
-              <div className="icons">
-                <a href="#" className="fas fa-film">
-                  <h3>2</h3>
-                </a>
-                <a href="#" className="fas fa-camera">
-                  <h3>6</h3>
-                </a>
-              </div>
-            </div>
-            <div className="content">
-              <div className="price">
-                <h3>$25,000/mo</h3>
-                <a href="#" className="fas fa-heart"></a>
-                <a href="#" className="fas fa-envelope"></a>
-                <a href="#" className="fas fa-phone"></a>
-              </div>
-              <div className="location">
-                <h3>modern apartments</h3>
-                <p>jogeshwari west, mumbai, india - 400104</p>
-              </div>
-              <div className="details">
-                <h3>
-                  <i className="fas fa-expand"></i> 3500 sqft
-                </h3>
-                <h3>
-                  <i className="fas fa-bed"></i> 3 beds
-                </h3>
-                <h3>
-                  <i className="fas fa-bath"></i> 2 baths
-                </h3>
-              </div>
-              <div className="buttons">
-                <a href="#" className="btn">
-                  request info
-                </a>
-                <a href="#" className="btn">
-                  view details
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div className="box">
-            <div className="image-container">
-              <img src="images/img-5.jpg" alt="" />
-              <div className="info">
-                <h3>10 days ago</h3>
-                <h3>for sell</h3>
-              </div>
-              <div className="icons">
-                <a href="#" className="fas fa-film">
-                  <h3>3</h3>
-                </a>
-                <a href="#" className="fas fa-camera">
-                  <h3>8</h3>
-                </a>
-              </div>
-            </div>
-            <div className="content">
-              <div className="price">
-                <h3>$25,000/mo</h3>
-                <a href="#" className="fas fa-heart"></a>
-                <a href="#" className="fas fa-envelope"></a>
-                <a href="#" className="fas fa-phone"></a>
-              </div>
-              <div className="location">
-                <h3>modern apartments</h3>
-                <p>jogeshwari west, mumbai, india - 400104</p>
-              </div>
-              <div className="details">
-                <h3>
-                  <i className="fas fa-expand"></i> 3500 sqft
-                </h3>
-                <h3>
-                  <i className="fas fa-bed"></i> 3 beds
-                </h3>
-                <h3>
-                  <i className="fas fa-bath"></i> 2 baths
-                </h3>
-              </div>
-              <div className="buttons">
-                <a href="#" className="btn">
-                  request info
-                </a>
-                <a href="#" className="btn">
-                  view details
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div className="box">
-            <div className="image-container">
-              <img src="images/img-6.jpg" alt="" />
-              <div className="info">
-                <h3>3 days ago</h3>
-                <h3>for sell</h3>
-              </div>
-              <div className="icons">
-                <a href="#" className="fas fa-film">
-                  <h3>1</h3>
-                </a>
-                <a href="#" className="fas fa-camera">
-                  <h3>4</h3>
-                </a>
-              </div>
-            </div>
-            <div className="content">
-              <div className="price">
-                <h3>$25,000/mo</h3>
-                <a href="#" className="fas fa-heart"></a>
-                <a href="#" className="fas fa-envelope"></a>
-                <a href="#" className="fas fa-phone"></a>
-              </div>
-              <div className="location">
-                <h3>modern apartments</h3>
-                <p>jogeshwari west, mumbai, india - 400104</p>
-              </div>
-              <div className="details">
-                <h3>
-                  <i className="fas fa-expand"></i> 3500 sqft
-                </h3>
-                <h3>
-                  <i className="fas fa-bed"></i> 3 beds
-                </h3>
-                <h3>
-                  <i className="fas fa-bath"></i> 2 baths
-                </h3>
-              </div>
-              <div className="buttons">
-                <a href="#" className="btn">
-                  request info
-                </a>
-                <a href="#" className="btn">
-                  view details
-                </a>
-              </div>
-            </div>
-          </div>
+        <div className="m-10 grid xl:grid-cols-4 sm:grid-cols-1 lg:grid-cols-2 gap-4">
+          <Property />
+          <Property />
+          <Property />
+          <Property />
+          <Property />
         </div>
       </section>
 
-      <section className="contact" id="contact">
-        <h1 className="heading">
-          <span>contact</span> us
+      <section
+        className="mt-11 flex flex-col justify-between items-center"
+        id="contact"
+      >
+        <h1 className="text-4xl capitalize">
+          <span className="text-primary bg-light p-3">contact</span> us
         </h1>
 
-        <div className="icons-container">
-          <div className="icons">
+        <div className="lg:flex m-10 lg:space-x-5 space-y-5 lg:space-y-0 w-[calc(100%-5rem)]">
+          <div className="lg:w-1/3 border-gray-200 border-2 shadow-lg bg-white p-5 capitalize flex flex-col items-center justify-center space-y-5">
             <img src="images/icon-1.png" alt="" />
-            <h3>phone number</h3>
+            <h3 className="text-2xl">phone number</h3>
             <p>+977 1234567890</p>
             <p>+977 1234567899</p>
           </div>
 
-          <div className="icons">
+          <div className="lg:w-1/3 border-gray-200 border-2 shadow-lg bg-white p-5 capitalize flex flex-col items-center justify-center space-y-5">
             <img src="images/icon-2.png" alt="" />
-            <h3>email address</h3>
+            <h3 className="text-2xl">email address</h3>
             <p>mail@mail.com</p>
             <p>mail@gmail.com</p>
           </div>
 
-          <div className="icons">
+          <div className="lg:w-1/3 border-gray-200 border-2 shadow-lg bg-white p-5 capitalize flex flex-col items-center justify-center space-y-5">
             <img src="images/icon-3.png" alt="" />
-            <h3>office address</h3>
+            <h3 className="text-2xl">office address</h3>
             <p>Kathmandu, Nepal</p>
           </div>
         </div>
 
-        <div className="row">
-          <form action="">
-            <div className="inputBox">
-              <input type="text" placeholder="name" />
-              <input type="number" placeholder="number" />
+        <div className="w-[calc(100%-5rem)] lg:h-[30rem] border-gray-200 border-2 shadow-lg bg-white p-5 capitalize lg:flex justify-between lg:space-x-5">
+          <form action="" className="w-full space-y-5">
+            <div className="flex space-x-5">
+              <TextInput
+                label="Name"
+                type="text"
+                placeholder="name"
+                className="w-1/3"
+                required
+              />
+              <TextInput
+                label="Phone Number"
+                type="number"
+                required
+                placeholder="number"
+                className="w-1/3"
+              />
             </div>
-            <div className="inputBox">
-              <input type="email" placeholder="email" />
-              <input type="text" placeholder="subject" />
+            <div className="flex space-x-5">
+              <TextInput
+                label="Email address"
+                type="email"
+                required
+                placeholder="email"
+                className="w-1/3"
+              />
+              <TextInput
+                label="Subject"
+                required
+                type="text"
+                placeholder="subject"
+                className="w-1/3"
+              />
             </div>
-            <textarea
-              name=""
-              placeholder="message"
-              id=""
-              cols="30"
-              rows="10"
-            ></textarea>
-            <input type="submit" value="send message" className="btn" />
+            <Textarea
+              label="Message"
+              required
+              placeholder="Message"
+              minRows={7}
+            ></Textarea>
+            <input
+              type="submit"
+              value="Send Message"
+              className="bg-primary text-light active:bg-secondary p-3 rounded-md cursor-pointer"
+            />
           </form>
 
           <iframe
-            className="map"
+            className="lg:w-1/2"
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d30153.788252261566!2d72.82321484621745!3d19.141690214227783!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7b63aceef0c69%3A0x2aa80cf2287dfa3b!2sJogeshwari%20West%2C%20Mumbai%2C%20Maharashtra%20400047!5e0!3m2!1sen!2sin!4v1626697480414!5m2!1sen!2sin"
             allowfullscreen=""
             loading="lazy"

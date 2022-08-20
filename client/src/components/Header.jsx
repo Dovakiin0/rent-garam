@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import UserMenu from "./UserMenu";
+import { Burger } from "@mantine/core";
 
 function Header() {
+  const [burgerOpen, setBurgerOpen] = useState(false);
+  const title = burgerOpen ? "Close navigation" : "Open navigation";
   return (
     <>
       <header className="flex justify-around h-20 items-center shadow-lg sticky top-0 z-50 bg-white">
@@ -9,11 +12,18 @@ function Header() {
           <span className="text-primary">Rent</span>Garam
         </a>
 
-        <nav className="space-x-10 uppercase">
+        <nav className="hidden md:flex space-x-10 uppercase">
           <a href="#home">home</a>
           <a href="#services">services</a>
           <a href="#featured">featured</a>
           <a href="#contact">contact</a>
+        </nav>
+        <nav className="block md:hidden">
+          <Burger
+            opened={burgerOpen}
+            title={title}
+            onClick={() => setBurgerOpen((o) => !o)}
+          />
         </nav>
         <UserMenu />
       </header>
