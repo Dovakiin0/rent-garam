@@ -19,8 +19,8 @@ const registerUser = async (req, res) => {
 
   // Insert User
   const { rows: newUser } = await db.query(
-    "INSERT INTO users (fullname, email, password, phone_no) VALUES ($1, $2, $3, $4) RETURNING id",
-    [full_name, email, hashedPassword, phone_no]
+    "INSERT INTO users (fullname, email, password, phone_no, role) VALUES ($1, $2, $3, $4, $5) RETURNING id",
+    [full_name, email, hashedPassword, phone_no, "user"]
   );
 
   // Generate Token

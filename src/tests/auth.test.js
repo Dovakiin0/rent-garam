@@ -22,8 +22,8 @@ describe("Authentication", () => {
   beforeEach(async () => {
     const hashed = await hashPassword("password");
     const { rows } = await db.query(
-      "INSERT INTO users (fullname, email, password, phone_no) VALUES ($1, $2, $3, $4) RETURNING id",
-      ["hello world", "hello@world.com", hashed, "92838"]
+      "INSERT INTO users (fullname, email, password, phone_no, role) VALUES ($1, $2, $3, $4, $5) RETURNING id",
+      ["hello world", "hello@world.com", hashed, "92838", "user"]
     );
     token = generateToken(rows[0].id);
   });
@@ -38,6 +38,7 @@ describe("Authentication", () => {
       full_name: "John Doe",
       phone_no: "9876543210",
       password: await hashPassword("password"),
+      role: "user",
     };
     const res = await supertest(server).post("/api/v1/auth/").send(user);
     expect(res.status).toBe(201);
