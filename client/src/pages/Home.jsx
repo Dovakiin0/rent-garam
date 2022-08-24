@@ -1,6 +1,7 @@
 import { Select, TextInput, Button, Textarea } from "@mantine/core";
 import React, { useState } from "react";
 import Property from "../components/Property";
+import { Link } from "react-router-dom";
 
 function Home() {
   const [mode, setMode] = useState(0);
@@ -200,6 +201,11 @@ function Home() {
           <Property />
           <Property />
         </div>
+        <Link to="/featured">
+          <button className="bg-primary p-2 rounded-md text-white">
+            See More
+          </button>
+        </Link>
       </section>
 
       <section
