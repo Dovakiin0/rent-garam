@@ -1,19 +1,33 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { FaHeart, FaUser } from "react-icons/fa";
+import { Menu } from "@mantine/core";
 
-function UserMenu({ className }) {
-  const [open, setOpen] = useState(true);
+function UserMenu() {
   const auth = useAuth();
-  return auth?.currentUser ? (
+  return !auth?.currentUser ? (
     <div className="flex space-x-5">
       <p className="cursor-pointer">
         <FaHeart className="text-primary text-2xl active:text-secondary" />
       </p>
-      <p className="cursor-pointer">
-        <FaUser className="text-primary text-2xl active:text-secondary" />
-      </p>
+      <Menu shadow="md" width={200}>
+        <Menu.Target>
+          <p className="cursor-pointer">
+            <FaUser className="text-primary text-2xl active:text-secondary" />
+          </p>
+        </Menu.Target>
+
+        <Menu.Dropdown>
+          <Menu.Label>User Menu</Menu.Label>
+          <Link to="/dashboard">
+            <Menu.Item>My Dashboard</Menu.Item>
+          </Link>
+          <Menu.Item>Account Settings</Menu.Item>
+          <Menu.Item>Log Out</Menu.Item>
+          <Menu.Divider />
+        </Menu.Dropdown>
+      </Menu>
     </div>
   ) : (
     <div className="flex space-x-5 items-center">

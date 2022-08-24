@@ -3,6 +3,9 @@ const path = require("path");
 
 const UPLOAD_DIR = path.join(__dirname, "../../storage/");
 
+/**
+ * Adds new estate listing
+ */
 const addNew = async (req, res) => {
   const image = req.files.image;
   const dir = UPLOAD_DIR + image.name;
@@ -45,6 +48,9 @@ const addNew = async (req, res) => {
   });
 };
 
+/**
+ * Get All estate listing
+ */
 const getAll = async (req, res) => {
   const { rows } = await db.query("SELECT * FROM estate");
   if (rows.length > 0) {
@@ -55,6 +61,9 @@ const getAll = async (req, res) => {
   });
 };
 
+/**
+ * Get one estate listing with id
+ */
 const getOne = async (req, res) => {
   const { id } = req.params;
   const { rows } = await db.query("SELECT * FROM estate WHERE id = $1", [id]);
@@ -66,6 +75,9 @@ const getOne = async (req, res) => {
   });
 };
 
+/**
+ * Edit and existing estate listing
+ */
 const edit = async (req, res) => {
   const { rows: estateRow } = await db.query(
     "SELECT image_url FROM estate WHERE id = $1",
@@ -117,6 +129,9 @@ const edit = async (req, res) => {
   });
 };
 
+/**
+ * Delete an existing estate listing
+ */
 const del = async (req, res) => {
   const { id } = req.params;
   const { rows } = await db.query(

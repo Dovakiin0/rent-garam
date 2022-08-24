@@ -3,6 +3,9 @@ const { generateToken, hashPassword } = require("../utils/utility");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
+/**
+ * register a new user
+ */
 const registerUser = async (req, res) => {
   const { email, full_name, phone_no, password } = req.body;
   const hashedPassword = await hashPassword(password);
@@ -31,6 +34,9 @@ const registerUser = async (req, res) => {
   });
 };
 
+/**
+ * Gets Currently logged in user
+ */
 const getMe = async (req, res) => {
   token = req.headers.authorization.split(" ")[1];
   const decoded = await jwt.verify(token, process.env.JWT_SECRET);
@@ -48,6 +54,9 @@ const getMe = async (req, res) => {
   }
 };
 
+/**
+ * Login User and Generate Token
+ */
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
