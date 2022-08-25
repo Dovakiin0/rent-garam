@@ -6,7 +6,9 @@
   "scripts": {
     "test": "NODE_ENV=test jest --verbose",
     "dev": "nodemon src/index.js",
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "db:reset": "node src/db/reset.js",
+    "db:seed": "node src/db/seed.js"
   },
   "repository": {
     "type": "git",

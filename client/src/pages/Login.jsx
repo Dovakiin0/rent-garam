@@ -1,12 +1,53 @@
 import { Button, PasswordInput, TextInput } from "@mantine/core";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useState } from "react";
+import { useEffect } from "react";
+import { useAuth } from "../context/AuthContext";
 
 function Login() {
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
+  const navigate = useNavigate();
+  const location = useLocation();
+  const auth = useAuth();
+
+  const from = location.state?.from?.pathname || "/";
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const { data, status } = await axios.post(
+        "http://localhost:3000/api/v1/auth/login",
+        form
+      );
+      if (status === 200) {
+        localStorage.setItem("token", JSON.stringify(data.token));
+        window.location.reload();
+        navigate("/");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  useEffect(() => {
+    if (auth?.currentUser !== null) {
+      navigate(from, { replace: true });
+    }
+  }, [auth?.currentUser]);
+
   return (
-    <div class="bg-[#efefef] min-h-screen flex flex-col items-center justify-center">
+    <div className="bg-[#efefef] min-h-screen flex flex-col items-center justify-center">
       <div
-        class="
+        className="
         flex flex-col
         bg-white
         shadow-md
@@ -20,38 +61,43 @@ function Login() {
         max-w-md
       "
       >
-        <div class="font-medium self-center text-xl sm:text-3xl text-gray-800">
+        <div className="font-medium self-center text-xl sm:text-3xl text-gray-800">
           Log In
         </div>
-        <div class="mt-4 self-center text-xl sm:text-sm text-gray-800">
+        <div className="mt-4 self-center text-xl sm:text-sm text-gray-800">
           Enter your credentials to get access account
         </div>
 
-        <div class="mt-10">
-          <form action="#">
+        <div className="mt-10">
+          <form onSubmit={handleSubmit}>
             <TextInput
               label="Email"
               required
+              type="email"
               placeholder="Enter your email"
+              name="email"
               className="mb-5"
+              onChange={handleChange}
             />
             <PasswordInput
               label="Password"
               placeholder="Enter your password"
               required
               className="mb-5"
+              name="password"
+              onChange={handleChange}
             />
-            <Button className="mt-10" color={"red"} fullWidth>
+            <Button className="mt-10" color={"red"} fullWidth type="submit">
               Submit
             </Button>
           </form>
         </div>
       </div>
-      <div class="flex justify-center items-center mt-6">
+      <div className="flex justify-center items-center mt-6">
         <a
           href="#"
           target="_blank"
-          class="
+          className="
           inline-flex
           items-center
           text-gray-700
@@ -59,10 +105,10 @@ function Login() {
           text-xs text-center
         "
         >
-          <span class="ml-2">
+          <span className="ml-2">
             Don't have an Account?
             <Link to="/register">
-              <p class="text-xs ml-2 text-primary font-semibold">
+              <p className="text-xs ml-2 text-primary font-semibold">
                 Register here
               </p>
             </Link>

@@ -6,7 +6,8 @@ import { Menu } from "@mantine/core";
 
 function UserMenu() {
   const auth = useAuth();
-  return !auth?.currentUser ? (
+
+  return auth?.currentUser ? (
     <div className="flex space-x-5">
       <p className="cursor-pointer">
         <FaHeart className="text-primary text-2xl active:text-secondary" />
@@ -19,12 +20,12 @@ function UserMenu() {
         </Menu.Target>
 
         <Menu.Dropdown>
-          <Menu.Label>User Menu</Menu.Label>
+          <Menu.Label>Logged in as: {auth?.currentUser.fullname}</Menu.Label>
           <Link to="/dashboard">
             <Menu.Item>My Dashboard</Menu.Item>
           </Link>
           <Menu.Item>Account Settings</Menu.Item>
-          <Menu.Item>Log Out</Menu.Item>
+          <Menu.Item onClick={() => auth.logout()}>Log Out</Menu.Item>
           <Menu.Divider />
         </Menu.Dropdown>
       </Menu>

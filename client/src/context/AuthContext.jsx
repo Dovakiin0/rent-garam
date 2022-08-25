@@ -21,23 +21,26 @@ export const AuthProvider = ({ children }) => {
     let token = JSON.parse(localStorage.getItem("token"));
     if (typeof token !== "undefined" && token !== null) {
       try {
-        const { data, status } = await axios.get("/api/auth/me", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const { data, status } = await axios.get(
+          "http://localhost:3000/api/v1/auth/me",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
         if (status === 200) {
-          login(data);
+          login(data.user);
         }
       } catch (err) {
         localStorage.clear("token");
         navigate("/");
-        console.log(errorHandler(err));
+        console.log(err);
       }
     }
   };
 
-  //   useEffect(() => {
-  //     isAuthenticated();
-  //   }, []);
+  useEffect(() => {
+    isAuthenticated();
+  }, []);
 
   return (
     <AuthContext.Provider value={{ currentUser, login, logout }}>

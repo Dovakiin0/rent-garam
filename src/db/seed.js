@@ -17,9 +17,11 @@ async function seed() {
     [user.fullname, user.email, user.password, user.phone_no, user.role]
   );
 
-  console.log(rows[0]);
+  return rows[0];
 }
 
-async () => {
-  await seed();
-};
+seed()
+  .then((res) => {
+    console.log(res);
+  })
+  .catch((err) => console.log(err));

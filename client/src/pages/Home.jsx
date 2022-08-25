@@ -194,7 +194,7 @@ function Home() {
           <span className="text-primary bg-light p-3">Featured</span> Properties
         </h1>
 
-        <div className="m-10 grid xl:grid-cols-4 sm:grid-cols-1 lg:grid-cols-2 gap-4">
+        <div className="m-10 grid xl:grid-cols-5 sm:grid-cols-1 lg:grid-cols-2 gap-4">
           <Property />
           <Property />
           <Property />
@@ -202,7 +202,7 @@ function Home() {
           <Property />
         </div>
         <Link to="/featured">
-          <button className="bg-primary p-2 rounded-md text-white">
+          <button className="bg-primary p-2 rounded-md text-white w-28">
             See More
           </button>
         </Link>
