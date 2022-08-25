@@ -14,6 +14,7 @@ function Login() {
   const navigate = useNavigate();
   const location = useLocation();
   const auth = useAuth();
+  const [error, setError] = useState("");
 
   const from = location.state?.from?.pathname || "/";
 
@@ -36,6 +37,7 @@ function Login() {
         navigate("/");
       }
     } catch (err) {
+      setError("Username or Password does not match");
       console.log(err);
     }
   };
@@ -86,6 +88,7 @@ function Login() {
               className="mb-5"
               name="password"
               onChange={handleChange}
+              error={error}
             />
             <Button className="mt-10" color={"red"} fullWidth type="submit">
               Submit

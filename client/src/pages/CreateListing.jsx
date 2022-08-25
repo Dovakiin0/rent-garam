@@ -143,6 +143,7 @@ function CreateListing() {
           <Select
             className="w-full"
             required
+            name="type"
             label="Select type of property"
             placeholder="Pick one"
             data={[
@@ -210,6 +211,7 @@ function CreateListing() {
           label="Price"
           placeholder="Enter price of property"
           name="price"
+          required
           onChange={(val) => setForm({ ...form, price: val })}
           icon={<FaRupeeSign color="black" />}
         />

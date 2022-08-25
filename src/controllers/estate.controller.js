@@ -98,7 +98,8 @@ const edit = async (req, res) => {
     [req.params.id]
   );
   let image_url = estateRow[0].image_url;
-  if (typeof req.files !== "undefined") {
+  console.log(req.files);
+  if (typeof req.files !== "undefined" && req.files !== null) {
     const image = req.files.image;
     const dir = UPLOAD_DIR + image.name;
     image.mv(dir, (err) => {

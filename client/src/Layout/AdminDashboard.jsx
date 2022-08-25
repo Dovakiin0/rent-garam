@@ -23,22 +23,12 @@ function AdminDashboard() {
                 <p className="ml-5">All Listings</p>
               </div>
             </Link>
-            {/* <Link to="/dashboard/new-listing">
+            <Link to="/dashboard/create-listing">
               <div
                 className={`${
                   active === 1 ? "bg-primary text-light" : ""
                 } p-2 rounded-sm cursor-pointer`}
                 onClick={() => setActive(1)}
-              >
-                <p className="ml-5">New Listings</p>
-              </div>
-            </Link> */}
-            <Link to="/dashboard/create-listing">
-              <div
-                className={`${
-                  active === 2 ? "bg-primary text-light" : ""
-                } p-2 rounded-sm cursor-pointer`}
-                onClick={() => setActive(2)}
               >
                 <p className="ml-5">Create Listing</p>
               </div>
@@ -46,9 +36,9 @@ function AdminDashboard() {
             <Link to="/dashboard/favourite-listing">
               <div
                 className={`${
-                  active === 3 ? "bg-primary text-light" : ""
+                  active === 2 ? "bg-primary text-light" : ""
                 } p-2 rounded-sm cursor-pointer`}
-                onClick={() => setActive(3)}
+                onClick={() => setActive(2)}
               >
                 <p className="ml-5">Favourite Listings</p>
               </div>

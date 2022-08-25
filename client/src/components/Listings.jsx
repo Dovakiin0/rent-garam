@@ -1,36 +1,66 @@
 import React from "react";
-import { Table } from "@mantine/core";
+import { Table, ActionIcon, Popover, Text } from "@mantine/core";
+import { FaEdit, FaTrash } from "react-icons/fa";
 
-function Listings({ listing }) {
+function Listings({ listing, setSelected, setOpen }) {
   return (
-    <Table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Title</th>
-          <th>Address</th>
-          <th>Type</th>
-          <th>Bedrooms</th>
-          <th>Bathrooms</th>
-          <th>Phone</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {listing.map((l, i) => (
+    <>
+      <Table>
+        <thead>
           <tr>
-            <td>{l.id}</td>
-            <td>{l.name}</td>
-            <td>{l.address}</td>
-            <td>{l.type}</td>
-            <td>{l.bedroom}</td>
-            <td>{l.washroom}</td>
-            <td>{l.phone_no}</td>
-            <td></td>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Address</th>
+            <th>Type</th>
+            <th>Bedrooms</th>
+            <th>Bathrooms</th>
+            <th>Phone</th>
+            <th>By</th>
+            <th>Actions</th>
           </tr>
-        ))}
-      </tbody>
-    </Table>
+        </thead>
+        <tbody>
+          {listing.map((l, i) => (
+            <tr>
+              <td>{l.id}</td>
+              <td>{l.name}</td>
+              <td>{l.address}</td>
+              <td>{l.type}</td>
+              <td>{l.bedroom}</td>
+              <td>{l.washroom}</td>
+              <td>{l.phone_no}</td>
+              <td>{l.fullname}</td>
+              <td className="flex items-center">
+                <ActionIcon
+                  onClick={(e) => {
+                    setSelected(l);
+                    setOpen(true);
+                  }}
+                >
+                  <FaEdit color="blue" />
+                </ActionIcon>
+                |
+                <Popover width={200} position="bottom" withArrow shadow="md">
+                  <Popover.Target>
+                    <ActionIcon>
+                      <FaTrash color="red" />
+                    </ActionIcon>
+                  </Popover.Target>
+                  <Popover.Dropdown>
+                    <Text size="sm">
+                      Are you sure you wish to delete this listing?
+                    </Text>
+                    <button className="bg-primary p-2 rounded-md text-light">
+                      Confirm
+                    </button>
+                  </Popover.Dropdown>
+                </Popover>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+    </>
   );
 }
 
