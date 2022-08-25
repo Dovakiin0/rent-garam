@@ -3,7 +3,7 @@ import { AppShell, Navbar, Header, Footer } from "@mantine/core";
 import UserMenu from "../components/UserMenu";
 import { Link, Outlet } from "react-router-dom";
 
-function AdminDashboard() {
+function UserDashboard() {
   const [active, setActive] = useState(0);
 
   return (
@@ -12,14 +12,14 @@ function AdminDashboard() {
       navbar={
         <Navbar width={{ base: 300 }} className="flex flex-col justify-between">
           <div className="flex flex-col space-y-2">
-            <p className="text-xl bold m-5">Admin Dashboard</p>
+            <p className="text-xl bold m-5">User Dashboard</p>
             <div
               className={`${
                 active === 0 ? "bg-primary text-light" : ""
               } p-2 rounded-sm cursor-pointer`}
               onClick={() => setActive(0)}
             >
-              <p className="ml-5">All Listings</p>
+              <p className="ml-5">My Listings</p>
             </div>
             <div
               className={`${
@@ -27,7 +27,7 @@ function AdminDashboard() {
               } p-2 rounded-sm cursor-pointer`}
               onClick={() => setActive(1)}
             >
-              <p className="ml-5">New Listings</p>
+              <p className="ml-5">Create Listings</p>
             </div>
             <div
               className={`${
@@ -35,7 +35,7 @@ function AdminDashboard() {
               } p-2 rounded-sm cursor-pointer`}
               onClick={() => setActive(2)}
             >
-              <p className="ml-5">All Listings</p>
+              <p className="ml-5">Favourite Listings</p>
             </div>
           </div>
           <div>
@@ -72,4 +72,4 @@ function AdminDashboard() {
   );
 }
 
-export default AdminDashboard;
+export default UserDashboard;

@@ -25,7 +25,14 @@ function UserMenu() {
             <Menu.Item>My Dashboard</Menu.Item>
           </Link>
           <Menu.Item>Account Settings</Menu.Item>
-          <Menu.Item onClick={() => auth.logout()}>Log Out</Menu.Item>
+          <Menu.Item
+            onClick={() => {
+              auth.logout();
+              window.location.reload();
+            }}
+          >
+            Log Out
+          </Menu.Item>
           <Menu.Divider />
         </Menu.Dropdown>
       </Menu>

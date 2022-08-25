@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken");
  * register a new user
  */
 const registerUser = async (req, res) => {
-  const { email, full_name, phone_no, password } = req.body;
+  const { email, fullname, phone_no, password } = req.body;
   const hashedPassword = await hashPassword(password);
   const { rows } = await db.query("SELECT * FROM users WHERE email = $1", [
     email,
@@ -23,7 +23,7 @@ const registerUser = async (req, res) => {
   // Insert User
   const { rows: newUser } = await db.query(
     "INSERT INTO users (fullname, email, password, phone_no, role) VALUES ($1, $2, $3, $4, $5) RETURNING id",
-    [full_name, email, hashedPassword, phone_no, "user"]
+    [fullname, email, hashedPassword, phone_no, "user"]
   );
 
   // Generate Token

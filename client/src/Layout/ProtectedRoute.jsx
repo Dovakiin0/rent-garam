@@ -6,8 +6,6 @@ function ProtectedRoute({ children }) {
   const auth = useAuth();
   const location = useLocation();
 
-  console.log(auth.currentUser);
-
   return auth?.currentUser !== null ? (
     children
   ) : (
