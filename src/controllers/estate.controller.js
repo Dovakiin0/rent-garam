@@ -52,7 +52,21 @@ const addNew = async (req, res) => {
  * Get All estate listing
  */
 const getAll = async (req, res) => {
-  const { rows } = await db.query("SELECT * FROM estate");
+  const { rows } = await db.query(
+    "SELECT * FROM estate LEFT JOIN users ON estate.owner_id = users.id"
+  );
+  if (rows.length > 0) {
+    return res.status(200).json(rows);
+  }
+  return res.status(404).json({
+    message: "No estates found",
+  });
+};
+
+const getMyEstates = async (req, res) => {
+  const { rows } = await db.query("SELECT * FROM estate WHERE owner_id = $1", [
+    req.params.id,
+  ]);
   if (rows.length > 0) {
     return res.status(200).json(rows);
   }
@@ -152,4 +166,5 @@ module.exports = {
   getOne,
   edit,
   del,
+  getMyEstates,
 };

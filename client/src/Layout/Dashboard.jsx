@@ -9,7 +9,7 @@ function Dashboard() {
 
   return (
     <ProtectedRoute>
-      {auth?.currentUser.role === "admin" ? (
+      {auth?.currentUser?.role === "admin" ? (
         <AdminDashboard />
       ) : (
         <UserDashboard />

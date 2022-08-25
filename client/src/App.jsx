@@ -8,6 +8,8 @@ import PropertyDetail from "./pages/PropertyDetail";
 import AllListing from "./pages/AllListing";
 import { Navigate } from "react-router-dom";
 import Dashboard from "./Layout/Dashboard";
+import CreateListing from "./pages/CreateListing";
+import FavouriteListing from "./pages/FavouriteListing";
 
 function App() {
   return (
@@ -17,6 +19,11 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/dashboard" element={<Dashboard />}>
           <Route path="/dashboard/all-listing" element={<AllListing />} />
+          <Route path="/dashboard/create-listing" element={<CreateListing />} />
+          <Route
+            path="/dashboard/favourite-listing"
+            element={<FavouriteListing />}
+          />
           <Route
             path="/dashboard"
             element={<Navigate replace to="/dashboard/all-listing" />}

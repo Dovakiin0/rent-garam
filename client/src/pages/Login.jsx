@@ -17,6 +17,12 @@ function Login() {
 
   const from = location.state?.from?.pathname || "/";
 
+  useEffect(() => {
+    if (auth?.currentUser !== null) {
+      navigate(from, { replace: true });
+    }
+  }, [auth?.currentUser]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -37,12 +43,6 @@ function Login() {
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
-
-  useEffect(() => {
-    if (auth?.currentUser !== null) {
-      navigate(from, { replace: true });
-    }
-  }, [auth?.currentUser]);
 
   return (
     <div className="bg-[#efefef] min-h-screen flex flex-col items-center justify-center">

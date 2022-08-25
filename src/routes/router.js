@@ -10,4 +10,5 @@ module.exports = (app) => {
 
   app.use("/api/v1/auth", require("./auth.routes"));
   app.use("/api/v1/estate", require("./estate.routes"));
+  app.use("/api/v1/favourite", require("./favourite.routes"));
 };

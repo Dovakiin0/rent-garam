@@ -9,9 +9,6 @@ function UserMenu() {
 
   return auth?.currentUser ? (
     <div className="flex space-x-5">
-      <p className="cursor-pointer">
-        <FaHeart className="text-primary text-2xl active:text-secondary" />
-      </p>
       <Menu shadow="md" width={200}>
         <Menu.Target>
           <p className="cursor-pointer">

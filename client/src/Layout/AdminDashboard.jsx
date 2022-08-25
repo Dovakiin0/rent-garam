@@ -13,30 +13,46 @@ function AdminDashboard() {
         <Navbar width={{ base: 300 }} className="flex flex-col justify-between">
           <div className="flex flex-col space-y-2">
             <p className="text-xl bold m-5">Admin Dashboard</p>
-            <div
-              className={`${
-                active === 0 ? "bg-primary text-light" : ""
-              } p-2 rounded-sm cursor-pointer`}
-              onClick={() => setActive(0)}
-            >
-              <p className="ml-5">All Listings</p>
-            </div>
-            <div
-              className={`${
-                active === 1 ? "bg-primary text-light" : ""
-              } p-2 rounded-sm cursor-pointer`}
-              onClick={() => setActive(1)}
-            >
-              <p className="ml-5">New Listings</p>
-            </div>
-            <div
-              className={`${
-                active === 2 ? "bg-primary text-light" : ""
-              } p-2 rounded-sm cursor-pointer`}
-              onClick={() => setActive(2)}
-            >
-              <p className="ml-5">All Listings</p>
-            </div>
+            <Link to="/dashboard/all-listing">
+              <div
+                className={`${
+                  active === 0 ? "bg-primary text-light" : ""
+                } p-2 rounded-sm cursor-pointer`}
+                onClick={() => setActive(0)}
+              >
+                <p className="ml-5">All Listings</p>
+              </div>
+            </Link>
+            {/* <Link to="/dashboard/new-listing">
+              <div
+                className={`${
+                  active === 1 ? "bg-primary text-light" : ""
+                } p-2 rounded-sm cursor-pointer`}
+                onClick={() => setActive(1)}
+              >
+                <p className="ml-5">New Listings</p>
+              </div>
+            </Link> */}
+            <Link to="/dashboard/create-listing">
+              <div
+                className={`${
+                  active === 2 ? "bg-primary text-light" : ""
+                } p-2 rounded-sm cursor-pointer`}
+                onClick={() => setActive(2)}
+              >
+                <p className="ml-5">Create Listing</p>
+              </div>
+            </Link>
+            <Link to="/dashboard/favourite-listing">
+              <div
+                className={`${
+                  active === 3 ? "bg-primary text-light" : ""
+                } p-2 rounded-sm cursor-pointer`}
+                onClick={() => setActive(3)}
+              >
+                <p className="ml-5">Favourite Listings</p>
+              </div>
+            </Link>
           </div>
           <div>
             <Link to="/">

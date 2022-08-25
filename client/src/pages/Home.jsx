@@ -1,7 +1,9 @@
 import { Select, TextInput, Button, Textarea } from "@mantine/core";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Property from "../components/Property";
 import { Link } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 function Home() {
   const [mode, setMode] = useState(0);
@@ -13,6 +15,16 @@ function Home() {
     bedroom: "",
     bathroom: "",
   });
+  const location = useLocation();
+  const auth = useAuth();
+  const from = location.state?.from?.pathname || "/";
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (auth?.currentUser !== null) {
+      navigate(from, { replace: true });
+    }
+  }, [auth?.currentUser]);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
