@@ -7,7 +7,7 @@ import { ErrorNotification, SuccessNotification } from "./Notifications";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 
-function Property({ listing }) {
+function Property({ listing, mode = 0, setRefresher }) {
   const auth = useAuth();
 
   const setFavourite = async () => {
@@ -28,6 +28,27 @@ function Property({ listing }) {
       }
     } catch (error) {
       ErrorNotification({ message: "Error setting favourite" });
+      console.log(error);
+    }
+  };
+
+  const removeFavourite = async () => {
+    if (!auth?.currentUser) {
+      ErrorNotification({ message: "You need to be logged in to favourite" });
+      return;
+    }
+    try {
+      const { data, status } = await axios.delete(
+        "http://localhost:3000/api/v1/favourite/" + listing?.favourite_id
+      );
+      if (status === 200) {
+        setRefresher(Math.random());
+        SuccessNotification({
+          message: "Removed from favourites",
+        });
+      }
+    } catch (error) {
+      ErrorNotification({ message: "Error removing favourite" });
       console.log(error);
     }
   };
@@ -61,10 +82,17 @@ function Property({ listing }) {
           ) : (
             <h3 className="text-primary text-2xl">Rs. {listing?.price}/m</h3>
           )}
-          <FaHeart
-            onClick={setFavourite}
-            className="text-primary bg-light text-xl active:text-secondary cursor-pointer"
-          />
+          {mode === 0 ? (
+            <FaHeart
+              onClick={setFavourite}
+              className="text-primary bg-light text-xl active:text-secondary cursor-pointer"
+            />
+          ) : (
+            <FaHeart
+              onClick={removeFavourite}
+              className="text-primary bg-light text-xl active:text-secondary cursor-pointer"
+            />
+          )}
           <FaEnvelope className="text-primary bg-light text-xl active:text-secondary cursor-pointer" />
           <FaPhone className="text-primary bg-light text-xl active:text-secondary cursor-pointer" />
         </div>

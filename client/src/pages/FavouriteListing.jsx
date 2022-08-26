@@ -9,6 +9,7 @@ import { RiEmotionSadLine } from "react-icons/ri";
 function FavouriteListing() {
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [refresher, setRefresher] = useState(0);
   const auth = useAuth();
 
   const getProperties = async () => {
@@ -23,15 +24,14 @@ function FavouriteListing() {
       }
     } catch (error) {
       setLoading(false);
+      setProperties([]);
       console.log(error);
     }
   };
 
   useEffect(() => {
     getProperties();
-  }, []);
-
-  console.log(properties);
+  }, [refresher]);
 
   return (
     <>
@@ -41,7 +41,12 @@ function FavouriteListing() {
         {properties.length > 0 ? (
           <div className="m-10 grid xl:grid-cols-5 sm:grid-cols-1 lg:grid-cols-2 gap-4">
             {properties.map((property, i) => (
-              <Property listing={property} key={i} />
+              <Property
+                listing={property}
+                key={i}
+                mode={1}
+                setRefresher={setRefresher}
+              />
             ))}
           </div>
         ) : (
