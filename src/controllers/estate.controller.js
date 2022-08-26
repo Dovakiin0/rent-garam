@@ -27,7 +27,7 @@ const addNew = async (req, res) => {
     washroom,
   } = req.body;
   const { rows } = await db.query(
-    "INSERT INTO estate (name, image_url, description,address,bedroom,washroom, latitude, longitude, price, owner_id, type) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *",
+    "INSERT INTO estate (name, image_url, description,address,bedroom,washroom, latitude, longitude, price, owner_id, type, sold) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *",
     [
       name,
       image.name,
@@ -40,6 +40,7 @@ const addNew = async (req, res) => {
       price,
       owner_id,
       type,
+      false,
     ]
   );
   if (rows.length > 0) {
@@ -55,7 +56,7 @@ const addNew = async (req, res) => {
  */
 const getAll = async (req, res) => {
   const { rows } = await db.query(
-    "SELECT estate.id, name, image_url, description, address, bedroom, washroom, latitude, longitude, price, owner_id, phone_no, fullname, email, type, estate.createdAt FROM estate INNER JOIN users ON estate.owner_id = users.id"
+    "SELECT estate.id, name, image_url, description, address, bedroom, washroom, latitude, longitude, price, owner_id, phone_no, fullname, email, type, sold, estate.createdAt FROM estate INNER JOIN users ON estate.owner_id = users.id ORDER BY estate.createdAt DESC"
   );
   if (rows.length > 0) {
     return res.status(200).json(rows);
@@ -69,9 +70,9 @@ const getAll = async (req, res) => {
  * Get all estates by query
  */
 const getEstateQuery = async (req, res) => {
-  const { type, address, min_price, max_price, bedroom, washroom } = req.query;
+  let { type, address, min_price, max_price, bedroom, washroom } = req.query;
   const { rows } = await db.query(
-    "SELECT estate.id, name, image_url, description,address,bedroom,washroom, latitude, longitude, price, owner_id, type, phone_no, fullname, email, estate.createdAt FROM estate INNER JOIN users ON estate.owner_id = users.id WHERE type = $1 AND address ILIKE $2 AND price >= $3 AND price <= $4 AND bedroom >= $5 AND washroom >= $6",
+    "SELECT estate.id, name, image_url, description,address,bedroom,washroom, latitude, longitude, price, owner_id, type, phone_no, fullname, email, sold, estate.createdAt FROM estate INNER JOIN users ON estate.owner_id = users.id WHERE type = $1 AND address ILIKE $2 AND price >= $3 AND price <= $4 AND bedroom >= $5 AND washroom >= $6",
     [type, `%${address}%`, min_price, max_price, bedroom, washroom]
   );
   if (rows.length > 0) {
@@ -84,7 +85,7 @@ const getEstateQuery = async (req, res) => {
 
 const getMyEstates = async (req, res) => {
   const { rows } = await db.query(
-    "SELECT estate.id, name, image_url, description,address,bedroom,washroom, latitude, longitude, price, owner_id, type, phone_no, fullname, email, estate.createdAt FROM estate INNER JOIN users ON estate.owner_id = users.id WHERE owner_id = $1",
+    "SELECT estate.id, name, image_url, description,address,bedroom,washroom, latitude, longitude, price, owner_id, type, phone_no, fullname, email, sold, estate.createdAt FROM estate INNER JOIN users ON estate.owner_id = users.id WHERE owner_id = $1",
     [req.params.id]
   );
   if (rows.length > 0) {
@@ -101,7 +102,7 @@ const getMyEstates = async (req, res) => {
 const getOne = async (req, res) => {
   const { id } = req.params;
   const { rows } = await db.query(
-    "SELECT estate.id, name, image_url, description,address,bedroom,washroom, latitude, longitude, price, owner_id, type, phone_no, fullname, email, estate.createdAt FROM estate INNER JOIN users ON estate.owner_id = users.id WHERE estate.id = $1",
+    "SELECT estate.id, name, image_url, description,address,bedroom,washroom, latitude, longitude, price, owner_id, type, phone_no, fullname, email, sold, estate.createdAt FROM estate INNER JOIN users ON estate.owner_id = users.id WHERE estate.id = $1",
     [id]
   );
   if (rows.length > 0) {
@@ -168,6 +169,19 @@ const edit = async (req, res) => {
   });
 };
 
+const updateSoldStatus = async (req, res) => {
+  const { rows } = await db.query(
+    "UPDATE estate SET sold = $1 WHERE id = $2 RETURNING *",
+    [true, req.params.id]
+  );
+  if (rows.length > 0) {
+    return res.status(200).json(rows[0]);
+  }
+  return res.status(404).json({
+    message: "No estate found",
+  });
+};
+
 /**
  * Delete an existing estate listing
  */
@@ -193,4 +207,5 @@ module.exports = {
   del,
   getMyEstates,
   getEstateQuery,
+  updateSoldStatus,
 };

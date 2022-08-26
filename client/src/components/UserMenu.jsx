@@ -21,7 +21,7 @@ function UserMenu() {
           <Link to="/dashboard">
             <Menu.Item>My Dashboard</Menu.Item>
           </Link>
-          <Menu.Item>Account Settings</Menu.Item>
+          {/* <Menu.Item>Account Settings</Menu.Item> */}
           <Menu.Item
             onClick={() => {
               auth.logout();

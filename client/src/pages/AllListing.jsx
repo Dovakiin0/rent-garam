@@ -8,6 +8,7 @@ import { useAuth } from "../context/AuthContext";
 function AllListing() {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState(null);
+  const [refresher, setRefresher] = useState(0);
   const [listing, setListing] = useState([]);
   const [loading, setLoading] = useState(false);
   const auth = useAuth();
@@ -34,7 +35,7 @@ function AllListing() {
 
   useEffect(() => {
     getListings();
-  }, []);
+  }, [refresher]);
 
   return (
     <>
@@ -47,6 +48,7 @@ function AllListing() {
             listing={listing}
             setSelected={setSelected}
             setOpen={setOpen}
+            setRefresher={setRefresher}
           />
         </div>
       </div>

@@ -137,10 +137,39 @@ function ListingModal({ open, setOpen, listing }) {
     }
   };
 
+  const onUpdateSold = async () => {
+    try {
+      const { data, status } = await axios.post(
+        "http://localhost:3000/api/v1/estate/update/" + listing?.id
+      );
+      if (status === 200) {
+        SuccessNotification({
+          message: "Your listing has been marked as sold",
+        });
+        navigate("/dashboard");
+      }
+    } catch (err) {
+      ErrorNotification({ message: "Something went wrong" });
+      console.log(err);
+    }
+  };
+
   return (
     <Modal opened={open} onClose={() => setOpen(false)} size={"xl"}>
       <div className="bg-white shadow-md rounded-md p-5">
-        <p className="text-3xl">Edit Property Listing</p>
+        <div className="flex justify-between items-center">
+          <p className="text-3xl">Edit Property Listing</p>
+          {!listing?.sold ? (
+            <button
+              className="bg-primary p-2 rounded-md text-light"
+              onClick={() => onUpdateSold()}
+            >
+              Mark as Sold
+            </button>
+          ) : (
+            <p className="text-primary text-2xl">Sold</p>
+          )}
+        </div>
         <form
           className="flex flex-col space-y-10 mt-10"
           onSubmit={handleSubmit}

@@ -48,7 +48,7 @@ function Register() {
     if (auth?.currentUser !== null) {
       navigate("/");
     }
-  }, []);
+  }, [auth]);
 
   return (
     <div className="bg-[#efefef] min-h-screen flex flex-col items-center justify-center">

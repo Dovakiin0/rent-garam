@@ -33,6 +33,8 @@ function PropertyDetail() {
     getSingleProperty();
   }, [id]);
 
+  console.log(property);
+
   return loading ? (
     <LoadWrapper loading={loading} />
   ) : (
@@ -68,16 +70,22 @@ function PropertyDetail() {
                 <p>Contact Email: {property?.email}</p>
                 <p>Contact Phone: {property?.phone_no}</p>
               </div>
-              <h3 className="text-primary text-2xl">Rs. {property?.price}/m</h3>
+              {property?.sold ? (
+                <h3 className="text-primary text-2xl">Sold</h3>
+              ) : (
+                <h3 className="text-primary text-2xl">
+                  Rs. {property?.price}/m
+                </h3>
+              )}
             </div>
             <button className="w-full capitalize bg-light text-primary active:bg-primary active:text-light h-11 rounded-md">
-              <a>Contact Seller</a>
+              <a href={`mailto:${property?.email}`}>Contact Seller</a>
             </button>
           </div>
           <div>
             <GoogleMapComponent
               center={{ lat: property?.latitude, lng: property?.longitude }}
-              marker={[{ lat: property?.latitude, lng: property?.longitude }]}
+              properties={[property]}
             />
           </div>
         </div>

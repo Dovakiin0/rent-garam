@@ -7,6 +7,7 @@ import { useAuth } from "../context/AuthContext";
 import axios from "axios";
 import LoadWrapper from "../components/LoadWrapper";
 import GoogleMapComponent from "../components/GoogleMapComponent";
+import { RiEmotionSadLine } from "react-icons/ri";
 
 function Home() {
   const [mode, setMode] = useState(0);
@@ -146,7 +147,7 @@ function Home() {
                   onChange={(val) => setForm({ ...form, max_price: val })}
                   className="w-1/2"
                   data={[
-                    { value: "30000", label: "Rs 5000" },
+                    { value: "30000", label: "Rs 30000" },
                     { value: "40000", label: "Rs 40000" },
                     { value: "50000", label: "Rs 50000" },
                     { value: "9999999999", label: "Rs 50000+" },
@@ -251,20 +252,29 @@ function Home() {
           id="featured"
         >
           <h1 className="text-4xl">
-            <span className="text-primary bg-light p-3">Featured</span>
+            <span className="text-primary bg-light p-3">Recent</span>
             Properties
           </h1>
 
-          <div className="m-10 grid xl:grid-cols-5 sm:grid-cols-1 lg:grid-cols-2 gap-4">
-            {properties.map((property, i) => (
-              <Property listing={property} key={i} />
-            ))}
-          </div>
-          <Link to="/featured">
-            <button className="bg-primary p-2 rounded-md text-white w-28">
-              See More
-            </button>
-          </Link>
+          {properties.length > 0 ? (
+            <>
+              <div className="m-10 grid xl:grid-cols-5 sm:grid-cols-1 lg:grid-cols-2 gap-4">
+                {properties.map((property, i) => (
+                  <Property listing={property} key={i} />
+                ))}
+              </div>
+              <Link to="/featured">
+                <button className="bg-primary p-2 rounded-md text-white w-28">
+                  See More
+                </button>
+              </Link>
+            </>
+          ) : (
+            <div className="m-28 flex items-center space-x-2">
+              <p className="text-xl text-gray-500">Nothing to show</p>
+              <RiEmotionSadLine className="text-2xl text-gray-500" />
+            </div>
+          )}
         </section>
 
         <section
@@ -278,7 +288,7 @@ function Home() {
 
           <div className="m-10 w-full">
             {current ? (
-              <GoogleMapComponent center={current} marker={markers} />
+              <GoogleMapComponent center={current} properties={properties} />
             ) : (
               <LoadWrapper loading={loading} />
             )}

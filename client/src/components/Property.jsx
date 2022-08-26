@@ -44,7 +44,7 @@ function Property({ listing }) {
         <div className="flex space-x-2 absolute top-0 p-2">
           <h3 className="bg-black text-white bg-opacity-30 p-1 rounded-md">
             {moment
-              .utc(listing?.createdAt)
+              .utc(listing?.createdat)
               .local()
               .startOf("seconds")
               .fromNow()}
@@ -56,7 +56,11 @@ function Property({ listing }) {
       </div>
       <div className="flex flex-col space-y-5 p-5">
         <div className="flex items-center space-x-5">
-          <h3 className="text-primary text-2xl">Rs. {listing?.price}/m</h3>
+          {listing?.sold ? (
+            <h3 className="text-primary text-2xl">Sold</h3>
+          ) : (
+            <h3 className="text-primary text-2xl">Rs. {listing?.price}/m</h3>
+          )}
           <FaHeart
             onClick={setFavourite}
             className="text-primary bg-light text-xl active:text-secondary cursor-pointer"

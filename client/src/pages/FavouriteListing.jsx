@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import Property from "../components/Property";
 import { useAuth } from "../context/AuthContext";
 import LoadWrapper from "../components/LoadWrapper";
+import { RiEmotionSadLine } from "react-icons/ri";
 
 function FavouriteListing() {
   const [properties, setProperties] = useState([]);
@@ -37,11 +38,18 @@ function FavouriteListing() {
       <LoadWrapper loading={loading} />
       <div className="bg-white shadow-md rounded-md p-5">
         <p className="text-3xl">Favourite Estate Listings</p>
-        <div className="m-10 grid lg:grid-cols-4 xl:grid-cols-5 sm:grid-cols-2 xs:grid-cols-1 md:grid-cols-3 gap-4">
-          {properties.map((property, i) => (
-            <Property listing={property} key={i} />
-          ))}
-        </div>
+        {properties.length > 0 ? (
+          <div className="m-10 grid xl:grid-cols-5 sm:grid-cols-1 lg:grid-cols-2 gap-4">
+            {properties.map((property, i) => (
+              <Property listing={property} key={i} />
+            ))}
+          </div>
+        ) : (
+          <div className="m-28 flex items-center justify-center space-x-2">
+            <p className="text-xl text-gray-500">Nothing to show</p>
+            <RiEmotionSadLine className="text-2xl text-gray-500" />
+          </div>
+        )}
       </div>
     </>
   );
