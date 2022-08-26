@@ -3,6 +3,8 @@ import { TextInput, PasswordInput, Button } from "@mantine/core";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { useAuth } from "../context/AuthContext";
 
 function Register() {
   const [form, setForm] = useState({
@@ -14,6 +16,7 @@ function Register() {
   });
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const auth = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,7 +34,6 @@ function Register() {
       if (status === 201) {
         localStorage.setItem("token", JSON.stringify(data.token));
         window.location.reload();
-        navigate("/");
       }
     } catch (err) {
       console.log(err);
@@ -41,6 +43,12 @@ function Register() {
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
+
+  useEffect(() => {
+    if (auth?.currentUser !== null) {
+      navigate("/");
+    }
+  }, []);
 
   return (
     <div className="bg-[#efefef] min-h-screen flex flex-col items-center justify-center">

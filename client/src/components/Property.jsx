@@ -2,8 +2,36 @@ import React from "react";
 import { Image } from "@mantine/core";
 import { FaBath, FaBed, FaEnvelope, FaHeart, FaPhone } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import moment from "moment";
+import { ErrorNotification, SuccessNotification } from "./Notifications";
+import axios from "axios";
+import { useAuth } from "../context/AuthContext";
 
 function Property({ listing }) {
+  const auth = useAuth();
+
+  const setFavourite = async () => {
+    if (!auth?.currentUser) {
+      ErrorNotification({ message: "You need to be logged in to favourite" });
+      return;
+    }
+    try {
+      const { data, status } = await axios.post(
+        "http://localhost:3000/api/v1/favourite",
+        { user_id: auth?.currentUser?.id, estate_id: listing?.id }
+      );
+      if (status === 201) {
+        SuccessNotification({
+          message:
+            "Added to favourites. Visit Dashboard to view your favourites",
+        });
+      }
+    } catch (error) {
+      ErrorNotification({ message: "Error setting favourite" });
+      console.log(error);
+    }
+  };
+
   return (
     <div className="relative border-gray-200 border-2 shadow-lg bg-white capitalize flex flex-col hover:scale-[1.01]">
       <div>
@@ -15,7 +43,11 @@ function Property({ listing }) {
         />
         <div className="flex space-x-2 absolute top-0 p-2">
           <h3 className="bg-black text-white bg-opacity-30 p-1 rounded-md">
-            3 days ago
+            {moment
+              .utc(listing?.createdAt)
+              .local()
+              .startOf("seconds")
+              .fromNow()}
           </h3>
           <h3 className="bg-black text-white bg-opacity-30 p-1 rounded-md">
             {listing?.type}
@@ -25,7 +57,10 @@ function Property({ listing }) {
       <div className="flex flex-col space-y-5 p-5">
         <div className="flex items-center space-x-5">
           <h3 className="text-primary text-2xl">Rs. {listing?.price}/m</h3>
-          <FaHeart className="text-primary bg-light text-xl active:text-secondary cursor-pointer" />
+          <FaHeart
+            onClick={setFavourite}
+            className="text-primary bg-light text-xl active:text-secondary cursor-pointer"
+          />
           <FaEnvelope className="text-primary bg-light text-xl active:text-secondary cursor-pointer" />
           <FaPhone className="text-primary bg-light text-xl active:text-secondary cursor-pointer" />
         </div>

@@ -6,6 +6,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import axios from "axios";
 import LoadWrapper from "../components/LoadWrapper";
+import GoogleMapComponent from "../components/GoogleMapComponent";
 
 function Home() {
   const [mode, setMode] = useState(0);
@@ -22,6 +23,8 @@ function Home() {
   const location = useLocation();
   const auth = useAuth();
   const from = location.state?.from?.pathname || "/";
+  const [current, setCurrent] = useState(null);
+  const [markers, setMarkers] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -43,6 +46,7 @@ function Home() {
       if (status === 200) {
         setProperties(data);
         setLoading(false);
+        getMarkers(data);
       }
     } catch (error) {
       setLoading(false);
@@ -52,7 +56,22 @@ function Home() {
 
   useEffect(() => {
     getListings();
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) =>
+        setCurrent({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        })
+      );
+    }
   }, []);
+
+  const getMarkers = (properties) => {
+    setMarkers([]);
+    properties.map((p) =>
+      setMarkers((prev) => [...prev, { lat: p.latitude, lng: p.longitude }])
+    );
+  };
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -229,7 +248,7 @@ function Home() {
           id="featured"
         >
           <h1 className="text-4xl">
-            <span className="text-primary bg-light p-3">Featured</span>{" "}
+            <span className="text-primary bg-light p-3">Featured</span>
             Properties
           </h1>
 
@@ -243,6 +262,24 @@ function Home() {
               See More
             </button>
           </Link>
+        </section>
+
+        <section
+          className="mt-11 flex flex-col justify-between items-center"
+          id="featured"
+        >
+          <h1 className="text-4xl">
+            <span className="text-primary bg-light p-3">Properties</span>
+            Near You
+          </h1>
+
+          <div className="m-10 w-full">
+            {current ? (
+              <GoogleMapComponent center={current} marker={markers} />
+            ) : (
+              <LoadWrapper loading={loading} />
+            )}
+          </div>
         </section>
 
         <section

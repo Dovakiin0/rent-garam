@@ -12,15 +12,12 @@ function Login() {
     password: "",
   });
   const navigate = useNavigate();
-  const location = useLocation();
   const auth = useAuth();
   const [error, setError] = useState("");
 
-  const from = location.state?.from?.pathname || "/";
-
   useEffect(() => {
     if (auth?.currentUser !== null) {
-      navigate(from, { replace: true });
+      navigate("/");
     }
   }, [auth?.currentUser]);
 

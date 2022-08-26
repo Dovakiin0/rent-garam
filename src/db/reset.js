@@ -1,7 +1,9 @@
 const db = require("./index");
 
 async function Reset() {
-  const { rows } = await db.query("DROP TABLE IF EXISTS users, estate");
+  const { rows } = await db.query(
+    "DROP TABLE IF EXISTS favourite, estate, users"
+  );
 }
 
 Reset()

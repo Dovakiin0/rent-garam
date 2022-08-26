@@ -9,12 +9,7 @@ import {
   FaHome,
   FaRupeeSign,
 } from "react-icons/fa";
-import {
-  useLoadScript,
-  GoogleMap,
-  Marker,
-  useJsApiLoader,
-} from "@react-google-maps/api";
+import { useLoadScript, GoogleMap, Marker } from "@react-google-maps/api";
 import {
   ErrorNotification,
   SuccessNotification,

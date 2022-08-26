@@ -16,7 +16,7 @@ function AllListing() {
     let uri =
       auth?.currentUser?.role === "admin"
         ? "/estate"
-        : "/estate/" + auth?.currentUser?.id;
+        : "/estate/my/" + auth?.currentUser?.id;
     try {
       const { data, status } = await axios.get(
         "http://localhost:3000/api/v1" + uri,
