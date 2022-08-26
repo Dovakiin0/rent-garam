@@ -46,7 +46,7 @@ describe("Real Estate", () => {
     id = estateRow[0].id;
   });
 
-  afterAll(async () => {
+  afterEach(async () => {
     await db.query("DELETE FROM favourite");
     await db.query("DELETE FROM estate");
     await db.query("DELETE FROM users");

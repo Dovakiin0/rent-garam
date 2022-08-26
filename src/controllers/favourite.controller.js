@@ -2,7 +2,7 @@ const db = require("../db");
 
 const getAllFavorite = async (req, res) => {
   const { rows } = await db.query(
-    "SELECT * FROM favourite LEFT JOIN estate ON user_id = $1",
+    "SELECT * FROM favourite INNER JOIN estate ON favourite.estate_id = estate.id WHERE favourite.user_id = $1",
     [req.params.id]
   );
   if (rows.length > 0) {

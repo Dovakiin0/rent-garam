@@ -55,7 +55,24 @@ const addNew = async (req, res) => {
  */
 const getAll = async (req, res) => {
   const { rows } = await db.query(
-    "SELECT estate.id, name, image_url, description,address,bedroom,washroom, latitude, longitude, price, owner_id, phone_no, fullname, email, type, estate.createdAt FROM estate INNER JOIN users ON estate.owner_id = users.id"
+    "SELECT estate.id, name, image_url, description, address, bedroom, washroom, latitude, longitude, price, owner_id, phone_no, fullname, email, type, estate.createdAt FROM estate INNER JOIN users ON estate.owner_id = users.id"
+  );
+  if (rows.length > 0) {
+    return res.status(200).json(rows);
+  }
+  return res.status(404).json({
+    message: "No estates found",
+  });
+};
+
+/**
+ * Get all estates by query
+ */
+const getEstateQuery = async (req, res) => {
+  const { type, address, min_price, max_price, bedroom, washroom } = req.query;
+  const { rows } = await db.query(
+    "SELECT estate.id, name, image_url, description,address,bedroom,washroom, latitude, longitude, price, owner_id, type, phone_no, fullname, email, estate.createdAt FROM estate INNER JOIN users ON estate.owner_id = users.id WHERE type = $1 AND address ILIKE $2 AND price >= $3 AND price <= $4 AND bedroom >= $5 AND washroom >= $6",
+    [type, `%${address}%`, min_price, max_price, bedroom, washroom]
   );
   if (rows.length > 0) {
     return res.status(200).json(rows);
@@ -175,4 +192,5 @@ module.exports = {
   edit,
   del,
   getMyEstates,
+  getEstateQuery,
 };

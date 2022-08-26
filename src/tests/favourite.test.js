@@ -19,7 +19,7 @@ describe("Favourite Real Estate", () => {
       address: "New Baneshwor",
       type: "For Rent",
       price: 100000,
-      owner_id: rows[0].id,
+      owner_id: user_id,
       latitude: 79.99,
       bedroom: 5,
       washroom: 2,
@@ -51,7 +51,7 @@ describe("Favourite Real Estate", () => {
     id = favouriteRow[0].id;
   });
 
-  afterAll(async () => {
+  afterEach(async () => {
     await db.query("DELETE FROM favourite");
     await db.query("DELETE FROM estate");
     await db.query("DELETE FROM users");
@@ -66,9 +66,7 @@ describe("Favourite Real Estate", () => {
   });
 
   it("should get favourite", async () => {
-    const res = await supertest(server).get("/api/v1/favourite").send({
-      user_id,
-    });
+    const res = await supertest(server).get("/api/v1/favourite/" + user_id);
     expect(res.status).toBe(200);
   });
 

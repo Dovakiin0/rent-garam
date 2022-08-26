@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=test jest --verbose",
+    "test": "NODE_ENV=test jest auth --verbose --forceExit && NODE_ENV=test jest estate --verbose --forceExit && NODE_ENV=test jest favourite --verbose --forceExit ",
     "dev": "nodemon src/index.js",
     "start": "node src/index.js",
     "db:reset": "node src/db/reset.js",

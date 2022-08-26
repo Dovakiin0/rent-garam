@@ -11,12 +11,11 @@ import GoogleMapComponent from "../components/GoogleMapComponent";
 function Home() {
   const [mode, setMode] = useState(0);
   const [form, setForm] = useState({
-    name: "",
-    place: "",
+    address: "",
     min_price: "",
     max_price: "",
     bedroom: "",
-    bathroom: "",
+    washroom: "",
   });
   const [loading, setLoading] = useState(false);
   const [properties, setProperties] = useState([]);
@@ -73,9 +72,13 @@ function Home() {
     );
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    console.log(form);
+    const value = {
+      ...form,
+      type: mode === 0 ? "For Rent" : "For Sale",
+    };
+    navigate("/query", { state: { value } });
   };
 
   return (
@@ -109,30 +112,26 @@ function Home() {
                 } w-1/2 h-10 rounded-md`}
                 onClick={() => setMode(1)}
               >
-                For Sell
+                For Sale
               </button>
             </div>
 
             <div className="flex-col space-y-5">
               <div className="flex space-x-2">
                 <TextInput
-                  placeholder="Name"
-                  onChange={handleChange}
-                  name="name"
-                  className="w-1/2"
-                />
-                <TextInput
+                  required
                   placeholder="Place, City"
                   onChange={handleChange}
-                  name="place"
-                  className="w-1/2"
+                  name="address"
+                  className="w-full"
                 />
               </div>
               <div className="flex space-x-2">
                 <Select
                   name="min_price"
+                  required
                   placeholder="Minimum Price"
-                  onSelect={handleChange}
+                  onChange={(val) => setForm({ ...form, min_price: val })}
                   className="w-1/2"
                   data={[
                     { value: "5000", label: "Rs 5000" },
@@ -142,21 +141,24 @@ function Home() {
                 />
                 <Select
                   placeholder="Maximum Price"
+                  required
                   name="min_price"
-                  onSelect={handleChange}
+                  onChange={(val) => setForm({ ...form, max_price: val })}
                   className="w-1/2"
                   data={[
                     { value: "30000", label: "Rs 5000" },
                     { value: "40000", label: "Rs 40000" },
                     { value: "50000", label: "Rs 50000" },
+                    { value: "9999999999", label: "Rs 50000+" },
                   ]}
                 />
               </div>
               <div className="flex space-x-2">
                 <Select
                   name="bedroom"
+                  required
                   placeholder="Bedrooms"
-                  onSelect={handleChange}
+                  onChange={(val) => setForm({ ...form, bedroom: val })}
                   className="w-1/2"
                   data={[
                     { value: "1", label: "1 Bedroom" },
@@ -164,13 +166,14 @@ function Home() {
                     { value: "3", label: "3 Bedroom" },
                     { value: "4", label: "4 Bedroom" },
                     { value: "5", label: "5 Bedroom" },
-                    { value: "99", label: "5+ Bedroom" },
+                    { value: "6", label: "5+ Bedroom" },
                   ]}
                 />
                 <Select
                   name="bathroom"
                   placeholder="Bathrooms"
-                  onSelect={handleChange}
+                  required
+                  onChange={(val) => setForm({ ...form, washroom: val })}
                   className="w-1/2"
                   data={[
                     { value: "1", label: "1 Bathroom" },
@@ -178,7 +181,7 @@ function Home() {
                     { value: "3", label: "3 Bathroom" },
                     { value: "4", label: "4 Bathroom" },
                     { value: "5", label: "5 Bathroom" },
-                    { value: "99", label: "5+ Bathroom" },
+                    { value: "6", label: "5+ Bathroom" },
                   ]}
                 />
               </div>

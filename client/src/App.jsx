@@ -10,6 +10,7 @@ import { Navigate } from "react-router-dom";
 import Dashboard from "./Layout/Dashboard";
 import CreateListing from "./pages/CreateListing";
 import FavouriteListing from "./pages/FavouriteListing";
+import Search from "./pages/Search";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         </Route>
         <Route path="/" element={<Layouts />}>
           <Route path="/" element={<Home />} />
+          <Route path="/query" element={<Search />} />
           <Route path="/featured" element={<FeaturedProperties />} />
           <Route path="/property/:id" element={<PropertyDetail />} />
         </Route>
