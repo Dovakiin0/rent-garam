@@ -35,6 +35,37 @@ const registerUser = async (req, res) => {
 };
 
 /**
+ * Change password of user
+ */
+const changePassword = async (req, res) => {
+  const { password } = req.body;
+  const hashedPassword = await hashPassword(password);
+
+  const { rows } = await db.query(
+    "UPDATE users SET password = $1 WHERE id = $2",
+    [hashedPassword, req.body.id]
+  );
+  return res.status(200).json({
+    message: "Password changed successfully",
+  });
+};
+
+const getUser = async (req, res) => {
+  const { rows } = await db.query("SELECT * FROM users WHERE email = $1", [
+    req.body.email,
+  ]);
+  if (rows.length > 0) {
+    return res.status(200).json({
+      user: rows[0],
+    });
+  } else {
+    return res.status(404).json({
+      message: "User not found",
+    });
+  }
+};
+
+/**
  * Gets Currently logged in user
  */
 const getMe = async (req, res) => {
@@ -86,4 +117,6 @@ module.exports = {
   registerUser,
   loginUser,
   getMe,
+  changePassword,
+  getUser,
 };

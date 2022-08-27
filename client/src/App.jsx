@@ -11,6 +11,7 @@ import Dashboard from "./Layout/Dashboard";
 import CreateListing from "./pages/CreateListing";
 import FavouriteListing from "./pages/FavouriteListing";
 import Search from "./pages/Search";
+import Forgot from "./pages/Forgot";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/forgot" element={<Forgot />} />
         <Route path="/dashboard" element={<Dashboard />}>
           <Route path="/dashboard/all-listing" element={<AllListing />} />
           <Route path="/dashboard/create-listing" element={<CreateListing />} />

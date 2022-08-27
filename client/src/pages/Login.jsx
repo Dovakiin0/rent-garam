@@ -91,6 +91,11 @@ function Login() {
               Submit
             </Button>
           </form>
+          <Link to="/forgot">
+            <p className="text-xs text-center ml-2 text-primary font-semibold mt-2">
+              Forgot Password?
+            </p>
+          </Link>
         </div>
       </div>
       <div className="flex justify-center items-center mt-6">
