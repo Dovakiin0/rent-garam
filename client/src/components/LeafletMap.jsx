@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 function SetMarker({ cb, mode, moveTo }) {
   const [pos, setPos] = useState(moveTo ?? null);
   useMapEvents({
-    mousedown(pos) {
+    mouseup(pos) {
       if (mode === "VIEW") return;
       setPos(pos.latlng);
       cb(pos.latlng);
@@ -27,10 +27,8 @@ function LeafletMap({ properties, cb, mode = "VIEW", moveTo }) {
   const navigate = useNavigate();
   const [map, setMap] = useState(null);
 
-  console.log(moveTo);
-
   useEffect(() => {
-    if (moveTo) {
+    if (typeof moveTo !== "undefined") {
       map?.flyTo(
         {
           lat: moveTo.lat,
@@ -42,7 +40,7 @@ function LeafletMap({ properties, cb, mode = "VIEW", moveTo }) {
     }
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) =>
-        map.flyTo(
+        map?.flyTo(
           {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
@@ -63,8 +61,8 @@ function LeafletMap({ properties, cb, mode = "VIEW", moveTo }) {
     >
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
       <SetMarker cb={cb} mode={mode} moveTo={moveTo} />
-      {properties?.map((m) => (
-        <Marker position={{ lat: m.latitude, lng: m.longitude }}>
+      {properties?.map((m, i) => (
+        <Marker key={i} position={{ lat: m.latitude, lng: m.longitude }}>
           <Popup>
             <div>
               <h3 className="text-lg">{m.name}</h3>

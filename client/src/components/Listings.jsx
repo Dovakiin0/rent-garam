@@ -37,7 +37,7 @@ function Listings({ listing, setSelected, setOpen, setRefresher }) {
         </thead>
         <tbody>
           {listing.map((l, i) => (
-            <tr>
+            <tr key={i}>
               <td>{l.id}</td>
               <td>{l.name}</td>
               <td>{l.address}</td>

@@ -6,7 +6,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import axios from "axios";
 import LoadWrapper from "../components/LoadWrapper";
-import GoogleMapComponent from "../components/GoogleMapComponent";
 import { RiEmotionSadLine } from "react-icons/ri";
 import LeafletMap from "../components/LeafletMap";
 
@@ -24,8 +23,6 @@ function Home() {
   const location = useLocation();
   const auth = useAuth();
   const from = location.state?.from?.pathname || "/";
-  const [current, setCurrent] = useState(null);
-  const [markers, setMarkers] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -47,7 +44,6 @@ function Home() {
       if (status === 200) {
         setProperties(data);
         setLoading(false);
-        getMarkers(data);
       }
     } catch (error) {
       setLoading(false);
@@ -57,22 +53,7 @@ function Home() {
 
   useEffect(() => {
     getListings();
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) =>
-        setCurrent({
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        })
-      );
-    }
   }, []);
-
-  const getMarkers = (properties) => {
-    setMarkers([]);
-    properties.map((p) =>
-      setMarkers((prev) => [...prev, { lat: p.latitude, lng: p.longitude }])
-    );
-  };
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -286,11 +267,6 @@ function Home() {
           </h1>
 
           <div className="m-10 w-full">
-            {/* {current ? ( */}
-            {/*   <GoogleMapComponent center={current} properties={properties} /> */}
-            {/* ) : ( */}
-            {/*   <LoadWrapper loading={loading} /> */}
-            {/* )} */}
             <LeafletMap properties={properties} />
           </div>
         </section>

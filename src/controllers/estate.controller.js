@@ -71,6 +71,12 @@ const getAll = async (req, res) => {
  */
 const getEstateQuery = async (req, res) => {
   let { type, address, min_price, max_price, bedroom, washroom } = req.query;
+
+  if (min_price === "") min_price = 0;
+  if (max_price === "") max_price = Infinity;
+  if (bedroom === "") bedroom = 0;
+  if (washroom === "") washroom = 0;
+
   const { rows } = await db.query(
     "SELECT estate.id, name, image_url, description,address,bedroom,washroom, latitude, longitude, price, owner_id, type, phone_no, fullname, email, sold, estate.createdAt FROM estate INNER JOIN users ON estate.owner_id = users.id WHERE type = $1 AND address ILIKE $2 AND price >= $3 AND price <= $4 AND bedroom >= $5 AND washroom >= $6",
     [type, `%${address}%`, min_price, max_price, bedroom, washroom]
