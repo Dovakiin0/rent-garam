@@ -8,6 +8,7 @@ import axios from "axios";
 import LoadWrapper from "../components/LoadWrapper";
 import GoogleMapComponent from "../components/GoogleMapComponent";
 import { RiEmotionSadLine } from "react-icons/ri";
+import LeafletMap from "../components/LeafletMap";
 
 function Home() {
   const [mode, setMode] = useState(0);
@@ -100,17 +101,15 @@ function Home() {
 
             <div className="flex w-full">
               <button
-                className={`btn ${
-                  mode === 0 ? "bg-primary text-light" : "bg-light text-primary"
-                } w-1/2 h-10 rounded-md`}
+                className={`btn ${mode === 0 ? "bg-primary text-light" : "bg-light text-primary"
+                  } w-1/2 h-10 rounded-md`}
                 onClick={() => setMode(0)}
               >
                 For Rent
               </button>
               <button
-                className={`btn ${
-                  mode === 1 ? "bg-primary text-light" : "bg-light text-primary"
-                } w-1/2 h-10 rounded-md`}
+                className={`btn ${mode === 1 ? "bg-primary text-light" : "bg-light text-primary"
+                  } w-1/2 h-10 rounded-md`}
                 onClick={() => setMode(1)}
               >
                 For Sale
@@ -287,11 +286,12 @@ function Home() {
           </h1>
 
           <div className="m-10 w-full">
-            {current ? (
-              <GoogleMapComponent center={current} properties={properties} />
-            ) : (
-              <LoadWrapper loading={loading} />
-            )}
+            {/* {current ? ( */}
+            {/*   <GoogleMapComponent center={current} properties={properties} /> */}
+            {/* ) : ( */}
+            {/*   <LoadWrapper loading={loading} /> */}
+            {/* )} */}
+            <LeafletMap properties={properties} />
           </div>
         </section>
 

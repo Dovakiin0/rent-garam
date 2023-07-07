@@ -17,37 +17,20 @@ import {
   FaRupeeSign,
 } from "react-icons/fa";
 import {
-  useLoadScript,
-  GoogleMap,
-  Marker,
-  useJsApiLoader,
-} from "@react-google-maps/api";
-import {
   ErrorNotification,
   SuccessNotification,
 } from "../components/Notifications";
 import { useAuth } from "../context/AuthContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import LoadWrapper from "./LoadWrapper";
 import { useEffect } from "react";
+import LeafletMap from "./LeafletMap";
 
 function ListingModal({ open, setOpen, listing }) {
-  const containerStyle = {
-    width: "100%",
-    height: "400px",
-  };
-
-  const { isLoaded } = useLoadScript({
-    id: "google-map-script",
-    googleMapsApiKey: "AIzaSyDbZyb_p4Z_cPZHkqAy97S6jahjFhfbp80",
-  });
-
   const auth = useAuth();
   const navigate = useNavigate();
   const [map, setMap] = useState(null);
   const [image, setImage] = useState(null);
-
   const [loading, setLoading] = useState(false);
 
   const [form, setForm] = useState({
@@ -79,22 +62,8 @@ function ListingModal({ open, setOpen, listing }) {
 
   const [marker, setMarker] = useState(null);
 
-  const onLoad = React.useCallback(function callback(map) {
-    const bounds = new window.google.maps.LatLngBounds(center);
-    map.fitBounds(bounds);
-    map.setZoom(0);
-    setMap(map);
-  }, []);
-
-  const onUnmount = React.useCallback(function callback(map) {
-    setMap(null);
-  }, []);
-
-  const onMarkerChange = (e) => {
-    setMarker({
-      lat: e.latLng.lat(),
-      lng: e.latLng.lng(),
-    });
+  const onMarkerChange = (pos) => {
+    setMarker(pos);
   };
 
   const handleChange = (e) => {
@@ -102,7 +71,6 @@ function ListingModal({ open, setOpen, listing }) {
   };
 
   const handleSubmit = async (e) => {
-    console.log(form.type);
     e.preventDefault();
     const formData = new FormData();
     formData.append("name", form.name);
@@ -252,26 +220,11 @@ function ListingModal({ open, setOpen, listing }) {
               name="washroom"
             />
           </div>
-          {isLoaded ? (
-            <>
-              <Text weight={"bold"} size="sm">
-                Place a Marker to the location of the property
-              </Text>
-              <GoogleMap
-                mapContainerStyle={containerStyle}
-                center={center}
-                zoom={10}
-                onLoad={onLoad}
-                onUnmount={onUnmount}
-                onClick={(e) => onMarkerChange(e)}
-              >
-                {/* Child components, such as markers, info windows, etc. */}
-                {marker && <Marker position={marker} />}
-              </GoogleMap>
-            </>
-          ) : (
-            <LoadWrapper loading={loading} />
-          )}
+
+          <Text weight={"bold"} size="sm">
+            Place a Marker to the location of the property
+          </Text>
+          <LeafletMap cb={onMarkerChange} mode={"CREATE"} moveTo={center} />
           <NumberInput
             value={form?.price}
             label="Price"

@@ -1,5 +1,5 @@
 import { TextInput, FileInput, Text, NumberInput, Select } from "@mantine/core";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import { RichTextEditor } from "@mantine/rte";
 import {
   FaBath,
@@ -9,7 +9,6 @@ import {
   FaHome,
   FaRupeeSign,
 } from "react-icons/fa";
-import { useLoadScript, GoogleMap, Marker } from "@react-google-maps/api";
 import {
   ErrorNotification,
   SuccessNotification,
@@ -17,27 +16,12 @@ import {
 import { useAuth } from "../context/AuthContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import LeafletMap from "../components/LeafletMap";
 
 function CreateListing() {
-  const containerStyle = {
-    width: "100%",
-    height: "400px",
-  };
-
-  const { isLoaded } = useLoadScript({
-    id: "google-map-script",
-    googleMapsApiKey: "AIzaSyDbZyb_p4Z_cPZHkqAy97S6jahjFhfbp80",
-  });
-
   const auth = useAuth();
   const navigate = useNavigate();
-  const [map, setMap] = useState(null);
   const [image, setImage] = useState(null);
-  const [center, setCenter] = useState({
-    lat: 27.708317,
-    lng: 85.3205817,
-  });
-  const [loading, setLoading] = useState(false);
   const [marker, setMarker] = useState(null);
 
   const [form, setForm] = useState({
@@ -50,26 +34,13 @@ function CreateListing() {
     type: "",
   });
 
-  const onLoad = React.useCallback(function callback(map) {
-    const bounds = new window.google.maps.LatLngBounds(center);
-    map.fitBounds(bounds);
-    map.setZoom(10);
-    setMap(map);
-  }, []);
-
-  const onUnmount = React.useCallback(function callback(map) {
-    setMap(null);
-  }, []);
-
-  const onMarkerChange = (e) => {
-    setMarker({
-      lat: e.latLng.lat(),
-      lng: e.latLng.lng(),
-    });
-  };
-
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const onMarkerChange = (pos) => {
+    setMarker(pos);
+    console.log(pos);
   };
 
   const handleSubmit = async (e) => {
@@ -89,11 +60,9 @@ function CreateListing() {
     try {
       const { data, status } = await axios.post(
         "http://localhost:3000/api/v1/estate/add",
-        formData,
-        { onUploadProgress: setLoading(true) }
+        formData
       );
       if (status === 201) {
-        setLoading(false);
         SuccessNotification({
           message: "Your listing has been created successfully",
         });
@@ -182,26 +151,12 @@ function CreateListing() {
             name="washroom"
           />
         </div>
-        {isLoaded ? (
-          <>
-            <Text weight={"bold"} size="sm">
-              Place a Marker to the location of the property
-            </Text>
-            <GoogleMap
-              mapContainerStyle={containerStyle}
-              center={center}
-              zoom={10}
-              onLoad={onLoad}
-              onUnmount={onUnmount}
-              onClick={(e) => onMarkerChange(e)}
-            >
-              {/* Child components, such as markers, info windows, etc. */}
-              {marker && <Marker position={marker} />}
-            </GoogleMap>
-          </>
-        ) : (
-          <p>Loading</p>
-        )}
+
+        <Text weight={"bold"} size="sm">
+          Place a Marker to the location of the property
+        </Text>
+        <LeafletMap cb={onMarkerChange} mode={"CREATE"} />
+
         <NumberInput
           label="Price"
           placeholder="Enter price of property"

@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useEffect } from "react";
 import LoadWrapper from "../components/LoadWrapper";
-import GoogleMapComponent from "../components/GoogleMapComponent";
+import { MapContainer, TileLayer, Marker } from "react-leaflet";
 
 function PropertyDetail() {
   const { id } = useParams();
@@ -32,8 +32,6 @@ function PropertyDetail() {
   useEffect(() => {
     getSingleProperty();
   }, [id]);
-
-  console.log(property);
 
   return loading ? (
     <LoadWrapper loading={loading} />
@@ -83,10 +81,23 @@ function PropertyDetail() {
             </button>
           </div>
           <div>
-            <GoogleMapComponent
-              center={{ lat: property?.latitude, lng: property?.longitude }}
-              properties={[property]}
-            />
+            {property?.latitude && property?.longitude && (
+              <MapContainer
+                center={{ lat: property.latitude, lng: property.longitude }}
+                zoom={13}
+                scrollWheelZoom={false}
+                style={{ width: "100%", height: "400px" }}
+              >
+                <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                <Marker
+                  position={{
+                    lat: property.latitude,
+                    lng: property.longitude,
+                  }}
+                ></Marker>
+                ))
+              </MapContainer>
+            )}
           </div>
         </div>
         <div></div>
