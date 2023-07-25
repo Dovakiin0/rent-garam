@@ -1,5 +1,6 @@
 const db = require("../db");
 const path = require("path");
+const { searchProperty } = require("../utils/levenshteinDistance");
 
 const UPLOAD_DIR = path.join(__dirname, "../../storage/");
 
@@ -41,7 +42,7 @@ const addNew = async (req, res) => {
       owner_id,
       type,
       false,
-    ]
+    ],
   );
   if (rows.length > 0) {
     return res.status(201).json(rows[0]);
@@ -56,7 +57,7 @@ const addNew = async (req, res) => {
  */
 const getAll = async (req, res) => {
   const { rows } = await db.query(
-    "SELECT estate.id, name, image_url, description, address, bedroom, washroom, latitude, longitude, price, owner_id, phone_no, fullname, email, type, sold, estate.createdAt FROM estate INNER JOIN users ON estate.owner_id = users.id ORDER BY estate.createdAt DESC"
+    "SELECT estate.id, name, image_url, description, address, bedroom, washroom, latitude, longitude, price, owner_id, phone_no, fullname, email, type, sold, estate.createdAt FROM estate INNER JOIN users ON estate.owner_id = users.id ORDER BY estate.createdAt DESC",
   );
   if (rows.length > 0) {
     return res.status(200).json(rows);
@@ -70,19 +71,14 @@ const getAll = async (req, res) => {
  * Get all estates by query
  */
 const getEstateQuery = async (req, res) => {
-  let { type, address, min_price, max_price, bedroom, washroom } = req.query;
-
-  if (min_price === "") min_price = 0;
-  if (max_price === "") max_price = Infinity;
-  if (bedroom === "") bedroom = 0;
-  if (washroom === "") washroom = 0;
-
   const { rows } = await db.query(
-    "SELECT estate.id, name, image_url, description,address,bedroom,washroom, latitude, longitude, price, owner_id, type, phone_no, fullname, email, sold, estate.createdAt FROM estate INNER JOIN users ON estate.owner_id = users.id WHERE type = $1 AND address ILIKE $2 AND price >= $3 AND price <= $4 AND bedroom >= $5 AND washroom >= $6",
-    [type, `%${address}%`, min_price, max_price, bedroom, washroom]
+    "SELECT estate.id, name, image_url, description, address, bedroom, washroom, latitude, longitude, price, owner_id, phone_no, fullname, email, type, sold, estate.createdAt FROM estate INNER JOIN users ON estate.owner_id = users.id ORDER BY estate.createdAt DESC",
   );
-  if (rows.length > 0) {
-    return res.status(200).json(rows);
+
+  const data = searchProperty(rows, req.query);
+
+  if (data.length > 0) {
+    return res.status(200).json(data);
   }
   return res.status(404).json({
     message: "No estates found",
@@ -92,7 +88,7 @@ const getEstateQuery = async (req, res) => {
 const getMyEstates = async (req, res) => {
   const { rows } = await db.query(
     "SELECT estate.id, name, image_url, description,address,bedroom,washroom, latitude, longitude, price, owner_id, type, phone_no, fullname, email, sold, estate.createdAt FROM estate INNER JOIN users ON estate.owner_id = users.id WHERE owner_id = $1",
-    [req.params.id]
+    [req.params.id],
   );
   if (rows.length > 0) {
     return res.status(200).json(rows);
@@ -109,7 +105,7 @@ const getOne = async (req, res) => {
   const { id } = req.params;
   const { rows } = await db.query(
     "SELECT estate.id, name, image_url, description,address,bedroom,washroom, latitude, longitude, price, owner_id, type, phone_no, fullname, email, sold, estate.createdAt FROM estate INNER JOIN users ON estate.owner_id = users.id WHERE estate.id = $1",
-    [id]
+    [id],
   );
   if (rows.length > 0) {
     return res.status(200).json(rows[0]);
@@ -125,7 +121,7 @@ const getOne = async (req, res) => {
 const edit = async (req, res) => {
   const { rows: estateRow } = await db.query(
     "SELECT image_url FROM estate WHERE id = $1",
-    [req.params.id]
+    [req.params.id],
   );
   let image_url = estateRow[0].image_url;
   if (typeof req.files !== "undefined" && req.files !== null) {
@@ -165,7 +161,7 @@ const edit = async (req, res) => {
       address,
       type,
       id,
-    ]
+    ],
   );
   if (rows.length > 0) {
     return res.status(200).json(rows[0]);
@@ -178,7 +174,7 @@ const edit = async (req, res) => {
 const updateSoldStatus = async (req, res) => {
   const { rows } = await db.query(
     "UPDATE estate SET sold = $1 WHERE id = $2 RETURNING *",
-    [true, req.params.id]
+    [true, req.params.id],
   );
   if (rows.length > 0) {
     return res.status(200).json(rows[0]);
@@ -195,7 +191,7 @@ const del = async (req, res) => {
   const { id } = req.params;
   const { rows } = await db.query(
     "DELETE FROM estate WHERE id = $1 RETURNING *",
-    [id]
+    [id],
   );
   if (rows.length > 0) {
     return res.status(200).json(rows[0]);
